@@ -1,3 +1,3 @@
-# hritesh93.github.io
+# hritesh-sonawane.github.io
 
-Access my personal website at https://hritesh93.github.io
+Access my personal website at hritesh-sonawane.github.io
