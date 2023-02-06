@@ -1,0 +1,215 @@
+/* Navigation bar */
+
+.nav {
+	background-color: white;
+	color: black;
+	font-family: 'Montserrat', sans-serif;
+	position: fixed;
+	z-index: 100;
+	width: 1000px;
+}
+
+
+.navbar_height {
+	height: 60px;
+}
+
+
+.nav_ul {
+	margin-top: 10px;
+	margin-bottom: 10px;
+  list-style-type: none;
+  margin: 0px;
+  overflow: hidden;
+  vertical-align: center;
+}
+
+#body_div {
+	margin-top: 60px;
+}
+
+.link {
+	/* text-decoration: underline; */
+}
+
+.link a{
+	text-decoration: underline;
+}
+
+.content {
+	max-width: 1000px;
+  margin: auto;
+  background-color: white;
+}
+
+#degree {
+	font-size: 15px;
+	font-weight: 300;
+}
+
+.nav_li {
+    float: left;
+    vertical-align: center;
+}
+
+.nav_li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.nav_li a:hover {]
+		text-decoration: underline;
+}
+
+p {
+	font-family: "Montserrat", sans-serif;
+}
+
+a {
+	color: black;
+}
+
+
+/* Header Image and Text */
+
+.header {
+	color: black;
+	padding: 10px;
+	margin-left: 25px ;
+	font-family: "Montserrat";
+	font-weight:400;
+}
+
+.news {
+	color: black;
+	padding: 10px;
+	margin-left: 30px ;
+	font-family: "Montserrat";
+	font-weight:400;
+}
+
+.profile_pic_container {
+	width: 100%;
+	margin-top: 58px;
+	display: inline-block;
+	font-family: "Montserrat";
+}
+
+#profile_pic {
+	margin-left:25px;
+	margin-right: 10px;
+	display: inline-block;
+}
+
+.im_style {
+	width:300px;
+	margin-left: 35px;
+}
+
+
+.bio {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+.name {
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+.sm-text {
+	color: black;
+	display: block;
+	padding: 10px 0px 0px 30px;
+	margin: 15px;
+	font-size: 15px;
+	font-family: "Montserrat";
+	font-weight: 300;
+	border-radius: 3px;
+}
+
+.med-text {
+	color: black;
+	display: block;
+	padding: 10px 0px 0px 30px;
+	margin: 15px;
+	font-size: 18px;
+	font-family: "Montserrat";
+	font-weight: 300;
+	border-radius: 3px;
+}
+
+
+h1 {
+	color: black;
+	display: block;
+	padding: 10px 10px 10px 30px;
+	font-size: 50px;
+	font-family: "Montserrat";
+	font-weight:300;
+	margin: 15px;
+}
+
+
+.half-sm-text {
+	color: black;
+	display: inline-block;
+	padding: 10px 10px 10px 30px;
+	margin: 15px;
+	font-size: 15px;
+	font-family: "Montserrat";
+	font-weight:300;
+	width: fit-content;
+}
+
+@media (max-width:890px) {
+
+  .nav {
+  	width: 100vw;
+  }
+
+	.nav_ul {
+		padding:0;
+	}
+
+	#profile_pic {
+		margin-left:0;
+		padding-left:0;
+	}
+
+	.half-sm-text {
+		margin-left: 0;
+	}
+
+	.sm-text {
+		padding-left:0;
+	}
+
+	.header {
+		margin-left: 0px ;
+	}
+}
+
+@media (max-width:400px) {
+
+  .nav {
+  	width: 100vw;
+  }
+
+	.im_style {
+		width:200px;
+		margin-left: 35px;
+	}
+
+	.nav_li a {
+		font-size: 15px;
+	}
+
+}
