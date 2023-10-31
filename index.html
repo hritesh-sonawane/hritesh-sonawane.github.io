@@ -1,57 +1,150 @@
 <!DOCTYPE html>
-
 <html lang='en-US'>
-
 <head>
-	<title> Hritesh Sonawane </title>
+    <title> Hritesh Sonawane </title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <style>
+        body {
+            background: linear-gradient(45deg, #141e30, #0e141b);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Times New Roman', serif;
+        }
 
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js">
-	</script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-	</script>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        .pushable {
+            position: relative;
+            border: none;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+            outline-offset: 4px;
+            transition: filter 250ms;
+        }
+        .shadow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: hsl(0deg 0% 0% / 0.25);
+            will-change: transform;
+            transform: translateY(2px);
+            transition:
+                transform
+                600ms
+                cubic-bezier(.3, .7, .4, 1);
+        }
+        .edge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(
+                to left,
+                hsl(200deg 100% 16%) 0%,
+                hsl(200deg 100% 32%) 8%,
+                hsl(200deg 100% 32%) 92%,
+                hsl(200deg 100% 16%) 100%
+            );
+        }
+        .front {
+            display: block;
+            position: relative;
+            padding: 12px 42px;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            color: white;
+            background: hsl(205deg 100% 47%);
+            will-change: transform;
+            transform: translateY(-4px);
+            transition:
+                transform
+                600ms
+                cubic-bezier(.3, .7, .4, 1);
+        }
+        .pushable:hover {
+            filter: brightness(110%);
+        }
+        .pushable:hover .front {
+            transform: translateY(-6px);
+            transition:
+                transform
+                250ms
+                cubic-bezier(.3, .7, .4, 1.5);
+        }
+        .pushable:active .front {
+            transform: translateY(-2px);
+            transition: transform 34ms;
+        }
+        .pushable:hover .shadow {
+            transform: translateY(4px);
+            transition:
+                transform
+                250ms
+                cubic-bezier(.3, .7, .4, 1.5);
+        }
+        .pushable:active .shadow {
+            transform: translateY(1px);
+            transition: transform 34ms;
+        }
+        .pushable:focus:not(:focus-visible) {
+            outline: none;
+        }
+        .intro-container {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 100px;
+        }
+        .intro-text {
+            color: white;
+            font-size: 1.25rem;
+            margin: 10px 0;
+        }
+        .intro-name {
+            font-size: 3rem;
+            color: white;
+        }
+        .profile-image {
+            max-width: 150px;
+        }
+        .contact-links {
+            margin-top: 20px;
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .contact-links a {
+            color: white;
+            font-size: 1.25rem;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
 </head>
-
 <body>
-		<div class="content">
-		<div class="nav">
-			<!-- <div class="nav_list"> -->
-			<ul class="nav_ul">
-				<li class="nav_li"> <a href="index.html"> Home </a> </li>
-				<li class="nav_li"> <a href=research.html> Research </a></li>
-				<li class="nav_li"> <a href=personal.html> Personal </a></li>
-			</ul>
-			<!-- </div> -->
-		</div>
+    <div class="intro-container">
+        <p class="intro-name">Hritesh Sonawane</p>
+        <p class="intro-text">An experienced software security engineer skilled at safeguarding systems and data</p>
+    </div>
 
-		<div class="profile_pic_container">
-			<div id="profile_pic"> <img src="images/profile.jpg" class="im_style"> </div>
-			<div class="bio half-sm-text">
-				<h1 class="name"> Hritesh S. Sonawane </h1>
-				<br>
-				<h3 id="degree"> MSc in Cybersecurity at Northeastern University | 2024 </h3>
-				<h3 id="degree"> BS in Information Technology at University of Mumbai | 2022 </h3>
-				<br><p id="degree"> </br>
-					As a highly disciplined software developer with expertise in security engineering, I thrive on wrangling 
-					complex challenges to bolster security defenses. I love building from a blank whiteboard, transforming early-stage prototypes into valued solutions
-				<br><p id="degree"> </br>			 
-					I'm also doing research on <em>attacks against delay-based congestion control protocols</em> as part of the Network and Distributed Systems Security Lab <a class="link" href="https://nds2.ccs.neu.edu" target="_blank">(NDS2)</a>, 
-					advised by Dr. <a class="link" href="https://cnitarot.github.io" target="_blank">Cristina</a> Nita-Rotaru. </br>
-					My research interests broadly include protocol, network and cloud security.
-				</p>
-			</br>
-			</br>
-				<a class="link" href="https://github.com/hritesh-sonawane" target="_blank"> Github</a> |
-				<a class="link" href="https://www.linkedin.com/in/hritesh-sonawane" target="_blank"> LinkedIn</a> |
-				<a class="link" href="files/Hritesh-Sonawane-Resume.pdf" target="_blank"> Resume </a>
-			
-			</div>
-		</div>
+    <a href="https://www.notion.so/perry-the-platypus/Hritesh-Sonawane-b4b7e235676a4e8690ca2531a2ce9fe7" target="_blank">
+        <button class="pushable" style="margin-top: 20px;">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front" style="font-family: 'Times New Roman', serif;">My CV!</span>
+        </button>
+    </a>
 
+    <div class="contact-links">
+        <a href="https://www.linkedin.com/in/hritesh-sonawane" target="_blank">LinkedIn</a>
+        <a href="https://github.com/hritesh-sonawane" target="_blank">GitHub</a>
+        <a href="mailto:sonawane.h@northeastern.edu">Email</a>
+    </div>
 </body>
-
 </html>
