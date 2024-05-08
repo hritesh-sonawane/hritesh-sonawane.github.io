@@ -11,7 +11,7 @@ Large Language Models (LLMs) have revolutionized the field of Natural Language P
 
 Adversarial attacks on LLMs can be launched by various actors, including malicious users, nation-states, or even other AI systems. The threat model includes attacks aimed at compromising the confidentiality, integrity, or availability of LLMs, as well as using LLMs as a vector for attacks on other systems or infrastructure.
 
-![llm threat model](./blog-images/llm-threat-model.png)
+![llm threat model](https://i.imgur.com/sH1rKrZ.png)
 Fig. 1: An overview of threats to LLM-based applications. (Image source: [Greshake et al. 2023](https://arxiv.org/abs/2302.12173))
 
 ### Classification
@@ -43,7 +43,7 @@ White-box attacks require access to the model's internal workings, allowing atta
 - Model red-teaming involves using other models to test the target model's robustness.
 - Jailbreak prompting involves crafting input prompts that bypass the model's security mechanisms.
 
-![image info](/content/blog/blog-images/eee-red-teaming.png)
+![image info](https://i.imgur.com/ukA2BSl.png)
 Fig. 2: The pipeline of red-teaming via Explore-Establish-Exploit steps. (Image source: [Casper et al. 2023](https://arxiv.org/abs/2306.09442))
 
 ## Mitigations
