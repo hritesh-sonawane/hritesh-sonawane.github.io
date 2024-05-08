@@ -11,7 +11,7 @@ Large Language Models (LLMs) have revolutionized the field of Natural Language P
 
 Adversarial attacks on LLMs can be launched by various actors, including malicious users, nation-states, or even other AI systems. The threat model includes attacks aimed at compromising the confidentiality, integrity, or availability of LLMs, as well as using LLMs as a vector for attacks on other systems or infrastructure.
 
-![llm threat model](/content/blog/blog-images/llm-threat-model.png)
+![llm threat model](./blog-images/llm-threat-model.png)
 Fig. 1: An overview of threats to LLM-based applications. (Image source: [Greshake et al. 2023](https://arxiv.org/abs/2302.12173))
 
 ### Classification
