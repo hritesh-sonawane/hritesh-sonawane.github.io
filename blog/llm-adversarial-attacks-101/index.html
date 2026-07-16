@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#18181b">
+<!-- 
+  This is an example. 
+  Use https://realfavicongenerator.net to generate the icons and manifest. 
+-->
+<link href="/favicon.svg" rel="shortcut icon">
+    <!-- Primary Meta Tags --><title>Adversarial Attacks on LLMs</title>
+<meta name="title" content="Adversarial Attacks on LLMs">
+<meta name="description" content="Adversarial Attacks on LLMs">
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:title" content="Adversarial Attacks on LLMs">
+<meta property="og:description" content="Adversarial Attacks on LLMs">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://hritesh-sonawane.github.io/blog/llm-adversarial-attacks-101">
+<meta property="article:author" content="Hritesh Sonawane">
+<meta property="article:published_time" content="2024-05-07T00:00:00.000Z">
+
+
+
+
+
+<!-- Twitter -->
+<meta property="twitter:title" content="Adversarial Attacks on LLMs">
+<meta property="twitter:description" content="Adversarial Attacks on LLMs">
+<meta property="twitter:site" content="@yourtwitterhandle">
+<meta property="twitter:creator" content="@yourtwitterhandle">
+<meta property="twitter:card" content="summary_large_image">
+
+
+<!-- {twitter.url && <meta property="twitter:url" content={twitter.url} />} -->
+
+  <link rel="stylesheet" href="/assets/stylesheet.css" />
+<script src="/assets/theme.js" defer></script></head>
+  <body>
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="/" accesskey="h" title="hs:// (Alt + H)">hs://</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/" title="Posts">
+                    <span class="active">Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+    <main id="main" class="main">
+        <article class="post-single post-content">
+          <header class="post-header">
+            <h1>Adversarial Attacks on LLMs</h1>
+            <div class="post-meta"><time>May 6, 2024</time> · Hritesh Sonawane</div>
+          </header>
+          <article><p>Large Language Models (LLMs) have revolutionized the field of Natural Language Processing (NLP), enabling applications like text generation, language translation, and question answering. Adversarial attacks on LLMs aim to manipulate or deceive the model's output, posing significant threats to their reliability and trustworthiness.</p><h2>Threat Model</h2><p>Adversarial attacks on LLMs can be launched by various actors, including malicious users, nation-states, or even other AI systems. The threat model includes attacks aimed at compromising the confidentiality, integrity, or availability of LLMs, as well as using LLMs as a vector for attacks on other systems or infrastructure.</p><p><img src="https://i.imgur.com/sH1rKrZ.png" alt="llm threat model"/> Fig. 1: An overview of threats to LLM-based applications. (Image source: <a href="https://arxiv.org/abs/2302.12173">Greshake et al. 2023</a>)</p><h3>Classification</h3><p>Adversarial attacks on LLMs can be classified into two main categories: white-box and black-box attacks. White-box attacks involve direct access to the model's architecture and parameters, while black-box attacks rely on input-output interactions with the model.</p><h3>Text Generation</h3><p>LLMs generate text based on input prompts or initial text. Adversarial attacks can manipulate the input or the model's parameters to produce malicious or misleading output.</p><h3>White-box vs Black-box</h3><p>White-box attacks require access to the model's internal workings, allowing attackers to craft targeted attacks. Black-box attacks, on the other hand, rely on trial and error, making them more feasible for real-world scenarios.</p><h2>Types of Adversarial Attacks</h2><table><thead><tr><th>Attack</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Token manipulation</td><td>Black-box</td><td>Alter a small fraction of tokens in the text input such that it triggers model failure but still remains its original semantic meanings.</td></tr><tr><td>Gradient based attack</td><td>White-box</td><td>Rely on gradient signals to learn an effective attack.</td></tr><tr><td>Jailbreak prompting</td><td>Black-box</td><td>Often heuristic-based prompting to “jailbreak” built-in model safety.</td></tr><tr><td>Human red-teaming</td><td>Black-box</td><td>Human attacks the model, with or without assist from other models.</td></tr><tr><td>Model red-teaming</td><td>Black-box</td><td>Model attacks the model, where the attacker model can be fine-tuned.</td></tr></tbody></table><ul><li>Token manipulation involves modifying input tokens to deceive the model. This can be done by inserting, deleting, or replacing tokens.</li><li>Gradient-based attacks use the model's gradients to identify vulnerabilities and craft targeted attacks.</li><li>Humans in the loop red-teaming involves using human evaluators to test the model's robustness.</li><li>Model red-teaming involves using other models to test the target model's robustness.</li><li>Jailbreak prompting involves crafting input prompts that bypass the model's security mechanisms.</li></ul><p><img src="https://i.imgur.com/ukA2BSl.png" alt="image info"/> Fig. 2: The pipeline of red-teaming via Explore-Establish-Exploit steps. (Image source: <a href="https://arxiv.org/abs/2306.09442">Casper et al. 2023</a>)</p><h2>Mitigations</h2><p>Mitigation strategies include:</p><ul><li>Saddle point problem<ul><li>The saddle point problem involves finding the optimal solution that balances the model's performance and robustness.</li></ul></li><li>LLM robustness techniques<ul><li>Research has focused on developing robust LLMs, including techniques like adversarial training and input preprocessing.</li></ul></li></ul><h2>References</h2><ol><li>Weng, Lilian. “<a href="https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm">Adversarial Attacks on LLMs</a>”. Lil’Log (Oct 2023).</li><li>Greshake et al. “<a href="https://arxiv.org/abs/2302.12173">Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection.</a>” arXiv preprint arXiv:2302.12173 (2023).</li><li>Casper et al. “<a href="https://arxiv.org/abs/2306.09442">Explore, Establish, Exploit: Red Teaming Language Models from Scratch.</a>” arXiv preprint arXiv:2306.09442 (2023).</li></ol></article>
+        </article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2026 <a href="/">hs://</a></span>
+    <span>Design reference: <a href="https://github.com/lilianweng/lilianweng.github.io" rel="noopener noreferrer" target="_blank">Lilian Weng</a></span>
+</footer>
+
+
+  
+</body></html>
