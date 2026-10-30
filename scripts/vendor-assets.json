@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "name": "mermaid",
+      "version": "11.17.2",
+      "file": "site/static/vendor/mermaid/11.17.2/mermaid.min.js",
+      "license": "MIT",
+      "licenseFile": "site/static/vendor/mermaid/LICENSE",
+      "bundledNotices": "Upstream third-party license comments are retained at the end of the rebuilt bundle.",
+      "officialSource": "https://registry.npmjs.org/mermaid/-/mermaid-11.17.2.tgz (package/dist/mermaid.min.js)",
+      "downloadedFrom": "https://registry.npmjs.org/mermaid/-/mermaid-11.17.2.tgz",
+      "downloadedOn": "2026-10-29",
+      "bytes": 3456716,
+      "sha256": "b44467e0450c20c2ac71fdad8a538b1562daec2ae2da9ca1663f5ea78704e9cd",
+      "sri": "sha384-xQZ2Kp6B87YEu3Bz/Z1Yr3etCiVDE4XShGumaw7GMBCNkeFOuDy6tu5hEVr7o/5u",
+      "verification": {
+        "status": "verified",
+        "performed": "Built from the npm integrity-pinned package lock with patched DOMPurify, js-yaml, and KaTeX overrides. The SBOM records the exact packages included by esbuild.",
+        "rebuild": "npm ci --prefix scripts/vendor-mermaid && npm run build --prefix scripts/vendor-mermaid"
+      },
+      "sbomFile": "scripts/vendor-mermaid/mermaid.cdx.json"
+    }
+  ]
+}

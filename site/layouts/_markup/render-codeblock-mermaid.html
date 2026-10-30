@@ -1,0 +1,11 @@
+{{- $source := strings.TrimSpace .Inner -}}
+{{- if findRE `^(flowchart|graph|block-beta|stateDiagram-v2)\b` $source 1 -}}
+  {{- $source = printf "%s\n%s" $source (partial "mermaid-classdefs.html" .) -}}
+{{- end -}}
+{{- .Page.Store.Set "hasMermaid" true -}}
+{{- $title := .Attributes.title | default "Diagram" -}}
+<figure class="diagram" data-diagram data-diagram-title="{{ $title }}">
+  <figcaption class="diagram-header"><span>{{ $title }}</span><button type="button" class="diagram-expand" data-diagram-expand aria-label="Expand diagram: {{ $title }}" hidden>Expand</button></figcaption>
+  <pre class="mermaid">{{ $source }}</pre>
+</figure>
+{{- /**/ -}}

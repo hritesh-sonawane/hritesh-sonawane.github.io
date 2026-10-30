@@ -1,0 +1,10 @@
+{{- $labels := dict "go" "Go" "bash" "Shell" "sh" "Shell" "shell" "Shell" "console" "Terminal" "text" "Text" "yaml" "YAML" "json" "JSON" "python" "Python" "toml" "TOML" "http" "HTTP" "rego" "Rego" "sql" "SQL" "dockerfile" "Dockerfile" "javascript" "JavaScript" "js" "JavaScript" "typescript" "TypeScript" "diff" "Diff" "hcl" "HCL" -}}
+{{- $lang := .Type | default "text" -}}
+{{- $label := index $labels $lang | default $lang -}}
+{{- $result := transform.HighlightCodeBlock . -}}
+{{- .Page.Store.Set "hasCode" true -}}
+<figure class="code-block">
+  <figcaption class="code-header"><span class="code-lang">{{ with .Attributes.title }}<span class="code-file">{{ . }}</span>{{ end }}{{ $label }}</span><button type="button" class="code-copy" data-copy hidden>Copy</button><span class="visually-hidden" role="status" data-copy-status></span></figcaption>
+  {{ $result.Wrapped }}
+</figure>
+{{- /**/ -}}

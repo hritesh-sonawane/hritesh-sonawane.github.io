@@ -1,0 +1,19 @@
+{{- /* Owned by the diagram feature: Mermaid loader and expanded viewer.
+  Mermaid is vendored under static/ at a version-pinned path (see
+  scripts/vendor-assets.json). Hugo reads the same bytes at build time to
+  compute the SRI hash, so a modified or truncated file fails to load.
+  diagrams.js injects the Mermaid script lazily, only when a diagram nears
+  the viewport. */ -}}
+{{- $version := "11.17.2" -}}
+{{- $path := printf "vendor/mermaid/%s/mermaid.min.js" $version -}}
+{{- $mermaidURL := $path | relURL -}}
+{{- $mermaidSRI := "" -}}
+{{- with os.ReadFile (printf "static/%s" $path) -}}
+  {{- /* Hashed only; never published (no .RelPermalink call). */ -}}
+  {{- $mermaidSRI = (resources.FromString (printf "_sri/%s" $path) . | fingerprint "sha384").Data.Integrity -}}
+{{- else -}}
+  {{- errorf "diagram-scripts: missing vendored Mermaid at static/%s" $path -}}
+{{- end -}}
+{{- with resources.Get "js/diagrams.js" | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" data-mermaid-src="{{ $mermaidURL }}" data-mermaid-integrity="{{ $mermaidSRI }}" data-palette="{{ hugo.Data.diagrams | jsonify }}" defer></script>
+{{- end }}

@@ -1,0 +1,70 @@
+/* Mermaid diagrams and the expanded viewer. Header mirrors .code-header. */
+/* Diagrams always sit on a light card so one Mermaid palette stays legible in both themes. */
+.diagram { counter-increment: fig; margin: 2.25rem 6px 2.25rem 0; border: 1px solid var(--shadow); background: #faf9f5; color: #141413; box-shadow: 6px 6px 0 var(--shadow); }
+.diagram-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 2.4rem; padding: .35rem .5rem .35rem .9rem; border-bottom: 1px solid var(--shadow); background: var(--tone); color: var(--on-tone); font: 600 .65rem var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.diagram-header > span::before { content: "Fig. " counter(fig); margin-right: .75rem; padding: .15rem .4rem; background: var(--on-tone); color: var(--tone); font-weight: 700; }
+.diagram-header :focus-visible { outline-color: var(--on-tone); }
+.diagram-expand { flex-shrink: 0; padding: .25rem .6rem; border: 1px solid var(--on-tone); background: transparent; color: var(--on-tone); font: .65rem var(--mono); text-transform: none; letter-spacing: 0; cursor: pointer; }
+.diagram-expand:hover { background: var(--on-tone); color: var(--tone); }
+.diagram-expand[hidden] { display: none; }
+
+/* Rendered diagram: centred, never shrunk below a legible scale; scrolls sideways instead. */
+.diagram-canvas { overflow-x: auto; overscroll-behavior-x: contain; padding: 1.5rem 1.25rem; font-size: 1rem; line-height: 1.65; }
+.diagram-canvas svg { display: block; margin: 0 auto; }
+.diagram-canvas:focus-visible { outline-offset: -4px; }
+.diagram-canvas svg p, .diagram-viewer-content svg p { margin: 0; }
+
+/* Source fallback: shown without JavaScript and when rendering fails. */
+.diagram pre.mermaid { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--card); color: var(--ink); font: .82rem/1.6 var(--mono); white-space: pre; tab-size: 4; }
+.diagram pre.mermaid[hidden] { display: none; }
+.diagram:is([data-state="pending"], [data-state="loading"]) pre.mermaid { display: none; }
+.diagram:is([data-state="pending"], [data-state="loading"])::after { content: "Loading diagram…"; display: grid; place-items: center; min-height: 12rem; font: .65rem var(--mono); color: #5f5e55; text-transform: uppercase; letter-spacing: .08em; }
+.diagram-error { margin: 0; padding: .6rem .9rem; border-top: 1px solid var(--rose-deep); background: var(--rose-soft); color: var(--ink); font: .72rem/1.5 var(--mono); }
+
+/* Expanded viewer */
+html.diagram-viewer-open { overflow: hidden; padding-right: var(--diagram-scrollbar, 0); }
+.diagram-viewer { width: calc(100vw - 2rem); height: calc(100vh - 2rem); height: calc(100dvh - 2rem); max-width: none; max-height: none; margin: auto; padding: 0; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); box-shadow: 8px 8px 0 var(--tone); overflow: hidden; }
+.diagram-viewer::backdrop { background: #141413b3; }
+.diagram-viewer-panel { display: flex; flex-direction: column; height: 100%; }
+.diagram-viewer-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem .6rem .5rem 1.1rem; border-bottom: 1px solid var(--ink); background: var(--tone); color: var(--on-tone); }
+.diagram-viewer-bar :focus-visible { outline-color: var(--on-tone); }
+.diagram-viewer-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 .7rem/1.4 var(--mono); color: var(--on-tone); text-transform: uppercase; letter-spacing: .08em; }
+.diagram-viewer-tools { display: flex; align-items: center; gap: .35rem; flex-shrink: 0; }
+.diagram-viewer-tools button { min-width: 2.2rem; height: 2.2rem; padding: 0 .7rem; border: 1px solid var(--on-tone); background: transparent; color: var(--on-tone); font: .7rem var(--mono); cursor: pointer; }
+.diagram-viewer-tools button:is([data-action="in"], [data-action="out"]) { padding: 0; font-size: 1.05rem; line-height: 1; }
+.diagram-viewer-tools button:hover { border-color: var(--on-tone); background: var(--on-tone); color: var(--tone); }
+.diagram-viewer-tools .diagram-viewer-close { margin-left: .4rem; background: var(--on-tone); color: var(--tone); }
+.diagram-viewer-tools .diagram-viewer-close:hover { background: transparent; color: var(--on-tone); }
+.diagram-viewer-tools :focus-visible { outline-offset: 2px; }
+.diagram-viewer-level { min-width: 3.4rem; text-align: center; font: .68rem var(--mono); color: var(--on-tone); font-variant-numeric: tabular-nums; }
+.diagram-viewer-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; background-color: #faf9f5; background-image: radial-gradient(circle, #d8d6cc 1px, transparent 1.3px); background-size: 22px 22px; font-size: 1rem; line-height: 1.65; }
+.diagram-viewer-stage.is-dragging { cursor: grabbing; }
+.diagram-viewer-stage:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+.diagram-viewer-content { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+.diagram-viewer-content svg { display: block; max-width: none; }
+.diagram-viewer-help { margin: 0; padding: .45rem 1.1rem; border-top: 1px solid var(--line); font: .62rem/1.6 var(--mono); color: var(--muted); }
+.diagram-viewer-help kbd { font: inherit; padding: .05rem .3rem; border: 1px solid var(--line); background: var(--soft); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .diagram-viewer-content.is-easing { transition: transform 150ms ease-out; }
+  .diagram-viewer[open] { animation: diagram-viewer-in 140ms ease-out; }
+  .diagram-viewer[open]::backdrop { animation: diagram-viewer-fade 140ms ease-out; }
+}
+@keyframes diagram-viewer-in { from { opacity: 0; transform: scale(.985); } }
+@keyframes diagram-viewer-fade { from { opacity: 0; } }
+
+@media (max-width: 760px) {
+  .diagram-canvas { padding: 1rem .75rem; }
+  .diagram-viewer { width: 100vw; height: 100vh; height: 100dvh; border: 0; box-shadow: none; }
+  .diagram-viewer-bar { padding-left: .75rem; gap: .5rem; }
+  .diagram-viewer-tools { gap: .25rem; }
+  .diagram-viewer-tools .diagram-viewer-close { margin-left: .15rem; }
+  .diagram-viewer-level { display: none; }
+}
+
+@media print {
+  .diagram-expand { display: none !important; }
+  .diagram:is([data-state="pending"], [data-state="loading"]) pre.mermaid { display: block; }
+  .diagram:is([data-state="pending"], [data-state="loading"])::after { content: none; }
+  .diagram-canvas { overflow: visible; }
+}

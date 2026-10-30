@@ -1,0 +1,96 @@
+{{- /*
+  Search index for site/assets/js/search.js, published at /index.json.
+  One entry per published page or section (drafts never reach site.Pages in
+  production builds). Keys are short to keep the file small:
+    t title · u URL · k kind label · s subject · m module · n lesson number
+    d description · h headings [{t text, a anchor}, …] (h2/h3) · b body excerpt
+*/ -}}
+{{- $notes := site.GetPage "/notes" -}}
+{{- $limit := 2400 -}}
+
+{{- /* Lesson number and module for every lesson in every course. */ -}}
+{{- $numbered := dict -}}
+{{- range site.Pages -}}
+  {{- if and .IsSection .Params.course -}}
+    {{- range partial "course-lessons.html" . -}}
+      {{- $numbered = merge $numbered (dict .page.RelPermalink (dict "number" .number "module" .module)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $entries := slice -}}
+{{- range site.Pages -}}
+  {{- if or .IsHome (not .File) -}}{{- continue -}}{{- end -}}
+  {{- $page := . -}}
+  {{- $course := partial "course.html" . -}}
+
+  {{- /* Subject: the section directly under /notes that contains this page. */ -}}
+  {{- $subject := "" -}}
+  {{- with $notes -}}
+    {{- range $page.Ancestors -}}
+      {{- if and .Parent (eq .Parent.RelPermalink $notes.RelPermalink) -}}{{- $subject = .LinkTitle -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $kind := "Page" -}}
+  {{- $number := "" -}}
+  {{- $module := "" -}}
+  {{- with index $numbered .RelPermalink -}}
+    {{- $kind = "Lesson" -}}
+    {{- $number = .number -}}
+    {{- $module = printf "Module %d · %s" .module.Weight .module.LinkTitle -}}
+  {{- else -}}
+    {{- if $course -}}
+      {{- if eq .RelPermalink $course.RelPermalink -}}{{- $kind = "Course" -}}
+      {{- else if .IsSection -}}{{- $kind = "Module" -}}{{- $module = printf "Module %d" .Weight -}}
+      {{- else -}}{{- $kind = "Reference" -}}{{- end -}}
+    {{- else if .IsSection -}}
+      {{- $kind = cond (and $notes .Parent (eq .Parent.RelPermalink $notes.RelPermalink)) "Subject" "Section" -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* h2/h3 headings in document order, with their anchors. The fragment
+         tree has an unnamed root (and unnamed placeholders for skipped
+         levels), so walk it to depth 3 and keep named h2/h3 nodes. */ -}}
+  {{- $nodes := slice -}}
+  {{- range .Fragments.Headings -}}
+    {{- $nodes = $nodes | append . -}}
+    {{- range .Headings -}}
+      {{- $nodes = $nodes | append . -}}
+      {{- range .Headings -}}
+        {{- $nodes = $nodes | append . -}}
+        {{- range .Headings -}}{{- $nodes = $nodes | append . -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $headings := slice -}}
+  {{- range $nodes -}}
+    {{- if and .ID (ge .Level 2) (le .Level 3) -}}
+      {{- $headings = $headings | append (dict "t" (.Title | plainify | htmlUnescape | strings.TrimSpace) "a" .ID) -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Prose only: drop code and diagram figures, preformatted text, and
+         heading "#" links. Block boundaries become spaces; inline tags vanish
+         so punctuation stays attached ("code," not "code ,"). */ -}}
+  {{- $html := string .Content -}}
+  {{- $html = replaceRE `(?s)<figure\b.*?</figure>` " " $html -}}
+  {{- $html = replaceRE `(?s)<(pre|svg|script|style)\b.*?</(pre|svg|script|style)>` " " $html -}}
+  {{- $html = replaceRE `(?s)<a class="heading-anchor"[^>]*>.*?</a>` "" $html -}}
+  {{- $html = replaceRE `(?i)</?(address|article|aside|blockquote|br|dd|details|div|dl|dt|figcaption|h[1-6]|hr|li|ol|p|section|summary|table|td|th|tr|ul)\b[^>]*>` " " $html -}}
+  {{- $html = replaceRE `<[^>]+>` "" $html -}}
+  {{- $body := $html | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- if gt (len $body) $limit -}}
+    {{- $body = substr $body 0 $limit | replaceRE `\s+\S*$` "" -}}
+  {{- end -}}
+
+  {{- $entry := dict "t" .Title "u" .RelPermalink "k" $kind -}}
+  {{- with $subject -}}{{- $entry = merge $entry (dict "s" .) -}}{{- end -}}
+  {{- with $module -}}{{- $entry = merge $entry (dict "m" .) -}}{{- end -}}
+  {{- with $number -}}{{- $entry = merge $entry (dict "n" .) -}}{{- end -}}
+  {{- with .Description -}}{{- $entry = merge $entry (dict "d" .) -}}{{- end -}}
+  {{- with $headings -}}{{- $entry = merge $entry (dict "h" .) -}}{{- end -}}
+  {{- with $body -}}{{- $entry = merge $entry (dict "b" .) -}}{{- end -}}
+  {{- $entries = $entries | append $entry -}}
+{{- end -}}
+{{- dict "v" 1 "pages" $entries | jsonify -}}

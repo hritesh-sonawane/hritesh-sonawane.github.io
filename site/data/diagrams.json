@@ -1,0 +1,16 @@
+{
+  "paper": "#faf9f5",
+  "ink": "#141413",
+  "muted": "#5f5e55",
+  "line": "#d8d6cc",
+  "soft": "#ebe9df",
+  "card": "#f3f1ea",
+  "signal": "#ff4f1a",
+  "tones": {
+    "accent": { "tone": "#7ea4dc", "deep": "#2443b5", "soft": "#e1e9f7" },
+    "rose": { "tone": "#ef94ad", "deep": "#b3154f", "soft": "#f9e2e9" },
+    "sage": { "tone": "#8dbb6f", "deep": "#2b6a24", "soft": "#e2efd8" },
+    "lilac": { "tone": "#b69cf0", "deep": "#6431c0", "soft": "#ece4fb" },
+    "ochre": { "tone": "#f0b452", "deep": "#b0420c", "soft": "#f9e8cb" }
+  }
+}

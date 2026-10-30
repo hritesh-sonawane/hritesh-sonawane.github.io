@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="370" viewBox="0 0 440 370" fill="none">
+  <title>An explicit security boundary</title>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 6 3-6 3" stroke="#141413" stroke-width="1.5"/></marker></defs>
+  <g stroke="#141413" stroke-width="1.5"><path d="M181 78h62M313 113v104M243 252h-61" marker-end="url(#arrow)"/><path d="M28 156h384v162H28z" stroke-dasharray="5 6" opacity=".55"/></g>
+  <g stroke="#141413" stroke-width="1.5"><rect x="44" y="43" width="138" height="70" rx="3" fill="#faf9f5"/><rect x="243" y="43" width="140" height="70" rx="3" fill="#faf9f5"/><rect x="243" y="217" width="140" height="70" rx="3" fill="#e8e6dc"/><rect x="44" y="217" width="138" height="70" rx="3" fill="#788c5d"/></g>
+  <g fill="#141413" font-family="ui-monospace,monospace" font-size="13" text-anchor="middle"><text x="113" y="75">REQUEST</text><text x="113" y="94" font-size="10">untrusted input</text><text x="313" y="75">IDENTITY</text><text x="313" y="94" font-size="10">verify the caller</text><text x="313" y="248">POLICY</text><text x="313" y="267" font-size="10">scope the action</text><text x="113" y="248">SECRET</text><text x="113" y="267" font-size="10">enforce access</text><text x="186" y="179" font-size="10" letter-spacing="1.2">WORKLOAD BOUNDARY</text><text x="222" y="345" font-size="10" letter-spacing="1">DENY BY DEFAULT. VERIFY AT EVERY HOP.</text></g>
+  <circle cx="313" cy="164" r="9" fill="#141413"/><path d="m309 164 3 3 5-6" stroke="#faf9f5" stroke-width="1.5"/>
+</svg>

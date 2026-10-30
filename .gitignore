@@ -1,1 +1,7 @@
 .DS_Store
+/.tools/
+/build/
+/site/.hugo_build.lock
+/site/resources/
+__pycache__/
+node_modules/
