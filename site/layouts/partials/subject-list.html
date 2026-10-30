@@ -1,0 +1,7 @@
+<ol class="subject-list">
+  {{ with site.GetPage "/notes" }}{{ range .Sections.ByWeight }}
+  {{- $status := .Params.status }}
+  {{- if .Params.course }}{{ $count := len (partial "course-lessons.html" .) }}{{ $status = printf "%d %s" $count (cond (eq $count 1) "lesson" "lessons") }}{{ end }}
+  <li><a class="subject-row" href="{{ .RelPermalink }}"{{ with .Params.tone }} data-tone="{{ . }}"{{ end }}><span class="subject-number tone-{{ .Params.tone }}">{{ printf "%02d" .Weight }}</span><div class="subject-copy"><h3>{{ .LinkTitle }}</h3><p>{{ .Description }}</p></div><span class="subject-status">{{ $status }}</span><span class="subject-arrow" aria-hidden="true">↗</span></a></li>
+  {{ end }}{{ end }}
+</ol>

@@ -1,0 +1,17 @@
+{
+  "version": "0.169.0",
+  "releases": {
+    "darwin": {
+      "file": "hugo_0.169.0_darwin-universal.pkg",
+      "sha256": "9b1170c439b5444e31d4731dd0071fc2b380b8d58050e6cdae80e3e179b4bf52"
+    },
+    "linux-amd64": {
+      "file": "hugo_0.169.0_linux-amd64.tar.gz",
+      "sha256": "2d2f0bfe357d8cb4cec02f6bb28a3bff34978c8dda44b618029c5eb9d66765a7"
+    },
+    "linux-arm64": {
+      "file": "hugo_0.169.0_linux-arm64.tar.gz",
+      "sha256": "ddadaaccbf437e3d39c33140b80c2180c4f46d027d16b7716c1282ea2e14e00c"
+    }
+  }
+}

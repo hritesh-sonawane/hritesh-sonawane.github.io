@@ -1,0 +1,19 @@
+baseURL = 'https://hritesh-sonawane.github.io/'
+locale = 'en-US'
+title = 'Hritesh Sonawane'
+enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term', 'RSS']
+
+[params]
+description = 'Security engineering, from first principles: AI, applications, infrastructure, cryptography, and systems design.'
+
+[markup.goldmark.renderer]
+unsafe = false
+
+[markup.highlight]
+noClasses = false
+
+[outputs]
+home = ['HTML', 'JSON']
+section = ['HTML']
+page = ['HTML']

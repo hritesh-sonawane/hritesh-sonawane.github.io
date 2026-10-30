@@ -1,0 +1,22 @@
+{{- /* Given a course root, return its lessons in reading order with computed numbers (1.a, 1.b, …). */ -}}
+{{- $letters := split "abcdefghijklmnopqrstuvwxyz" "" -}}
+{{- $lessons := slice -}}
+{{- $previous := false -}}
+{{- range $module := .Sections.ByWeight -}}
+  {{- range $i, $lesson := $module.RegularPages.ByWeight -}}
+    {{- if $lesson.Date.IsZero -}}
+      {{- errorf "%s: a lesson needs a publication date" $lesson.File.Path -}}
+    {{- end -}}
+    {{- if $previous -}}
+      {{- if not ($lesson.Date.After $previous.Date) -}}
+        {{- errorf "%s: publication date must be after %s in reading order" $lesson.File.Path $previous.File.Path -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $lesson.Lastmod.Before $lesson.Date -}}
+      {{- errorf "%s: updated date cannot precede publication" $lesson.File.Path -}}
+    {{- end -}}
+    {{- $lessons = $lessons | append (dict "page" $lesson "module" $module "number" (printf "%d.%s" $module.Weight (index $letters $i))) -}}
+    {{- $previous = $lesson -}}
+  {{- end -}}
+{{- end -}}
+{{- return $lessons -}}

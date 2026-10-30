@@ -1,0 +1,60 @@
+<!doctype html>
+{{- $course := partial "course.html" . }}
+<html lang="{{ site.Language.Locale }}"{{ with $course }}{{ with .Params.tone }} data-tone="{{ . }}"{{ end }}{{ end }}>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>try{var t=localStorage.getItem("hs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ .Description | default site.Params.description }}">
+    <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+    {{- $styles := slice }}
+    {{- range slice "base" "syntax" "lesson" "diagrams" "search" }}{{ with resources.Get (printf "css/%s.css" .) }}{{ $styles = $styles | append . }}{{ end }}{{ end }}
+    {{ with $styles | resources.Concat "css/site.css" | fingerprint }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+    {{ end }}
+  </head>
+  <body class="{{ if .IsHome }}is-home{{ else }}is-interior{{ end }}{{ if $course }} is-course{{ end }}"{{ with $course }} data-course="{{ .RelPermalink }}"{{ end }}>
+    {{ if $course }}<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>{{ end }}
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="Hritesh Sonawane, home"><span class="brand-mark" aria-hidden="true">hs://</span><span class="brand-name">Hritesh Sonawane<span>Security engineering</span></span></a>
+        <nav aria-label="Main navigation">
+          <a href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>Home</a>
+          {{ with site.GetPage "/notes" }}
+          <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ else if eq $.Section "notes" }} aria-current="true"{{ end }}>Notes <span aria-hidden="true">↗</span></a>
+          {{ end }}
+          <a class="github-link" href="https://github.com/hritesh-sonawane">GitHub <span aria-hidden="true">↗</span></a>
+          {{ partial "search-button.html" . }}
+          <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" title="Dark theme" hidden><span class="theme-icon" aria-hidden="true"></span><span class="visually-hidden">Dark theme</span></button>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="site-main" tabindex="-1">
+      {{ block "main" . }}{{ end }}
+    </main>
+    <footer class="site-footer"><span>© {{ now.Year }} {{ site.Title }}</span><a href="#main">Back to top ↑</a></footer>
+    {{ partial "search-dialog.html" . }}
+    {{ with resources.Get "js/theme.js" }}{{ with . | minify | fingerprint }}
+    <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+    {{ end }}{{ end }}
+    {{- if $course }}
+      {{ with resources.Get "js/reading.js" | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+      {{ end }}
+      {{ with resources.Get "js/progress.js" }}{{ with . | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+      {{ end }}{{ end }}
+    {{- end }}
+    {{- if .Store.Get "hasCode" }}
+      {{ with resources.Get "js/code.js" | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+      {{ end }}
+    {{- end }}
+    {{- if .Store.Get "hasMermaid" }}{{ partial "diagram-scripts.html" . }}{{ end }}
+  </body>
+</html>

@@ -1,0 +1,27 @@
+{{- $course := partial "course.html" . -}}
+{{- $letters := split "abcdefghijklmnopqrstuvwxyz" "" -}}
+<aside class="course-sidebar" aria-label="Course navigation">
+  <a class="sidebar-all" href="{{ with site.GetPage "/notes" }}{{ .RelPermalink }}{{ end }}">← All subjects</a>
+  <a class="course-tree-title" href="{{ $course.RelPermalink }}"{{ if eq $.RelPermalink $course.RelPermalink }} aria-current="page"{{ end }}><span class="subject-dot tone-{{ $course.Params.tone }}" aria-hidden="true"></span>{{ $course.LinkTitle }}</a>
+  <nav aria-label="Modules">
+    <ol class="course-tree">
+      {{- range $module := $course.Sections.ByWeight }}
+      {{- $here := or (eq $.RelPermalink $module.RelPermalink) (and $.Parent (eq $.Parent.RelPermalink $module.RelPermalink)) }}
+      <li>
+        <details{{ if $here }} open{{ end }}>
+          <summary><span class="tree-number">{{ $module.Weight }}</span><span>{{ $module.LinkTitle }}</span></summary>
+          <ol>
+            <li><a href="{{ $module.RelPermalink }}"{{ if eq $.RelPermalink $module.RelPermalink }} aria-current="page"{{ end }}><span class="tree-number">{{ $module.Weight }}·</span>Overview</a></li>
+            {{- range $i, $lesson := $module.RegularPages.ByWeight }}
+            <li><a href="{{ $lesson.RelPermalink }}" data-lesson="{{ $lesson.RelPermalink }}"{{ if eq $.RelPermalink $lesson.RelPermalink }} aria-current="page"{{ end }}><span class="tree-number">{{ $module.Weight }}.{{ index $letters $i }}</span>{{ $lesson.LinkTitle }}</a></li>
+            {{- end }}
+          </ol>
+        </details>
+      </li>
+      {{- end }}
+    </ol>
+  </nav>
+  {{- with $course.GetPage "glossary" }}
+  <p class="tree-reference"><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>Glossary</a></p>
+  {{- end }}
+</aside>

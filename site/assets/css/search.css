@@ -1,0 +1,69 @@
+/* Site search: header button and modal dialog. */
+.search-button { display: inline-flex; align-items: center; gap: .6rem; padding: .4rem .45rem .4rem .7rem; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: inherit; line-height: 1.2; cursor: pointer; }
+.search-button[hidden] { display: none; }
+.search-button:hover { border-color: var(--ink); color: var(--tone-deep); }
+.search-kbd, .search-keys kbd { font: .62rem/1 var(--mono); padding: .3rem .4rem; border: 1px solid var(--line); background: var(--soft); color: var(--muted); letter-spacing: .02em; white-space: nowrap; }
+.search-button:hover .search-kbd { border-color: var(--tone-deep); background: var(--tone-soft); color: var(--ink); }
+
+/* Background stays put while the dialog is open. */
+html.search-open { overflow: hidden; padding-right: var(--search-scrollbar, 0); }
+
+.search-dialog { width: min(42rem, calc(100vw - 2rem)); max-width: none; max-height: calc(100vh - 12vh - 1rem); max-height: calc(100dvh - 12vh - 1rem); margin: 12vh auto auto; padding: 0; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); box-shadow: 10px 10px 0 var(--tone); overflow: hidden; }
+.search-dialog[open] { display: flex; flex-direction: column; }
+.search-dialog::backdrop { background: #14141399; }
+.search-panel { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; padding: 1.1rem 1.25rem .75rem; }
+.search-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: .5rem; }
+.search-label { font: 500 .67rem/1.6 var(--mono); text-transform: uppercase; letter-spacing: .11em; color: var(--muted); }
+.search-close { padding: .3rem .5rem; border: 1px solid var(--line); background: var(--paper); color: var(--muted); font: .62rem/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; cursor: pointer; }
+.search-close:hover { border-color: var(--ink); color: var(--ink); }
+.search-input { width: 100%; padding: .35rem 0 .7rem; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; background: transparent; color: var(--ink); font: 1.7rem/1.2 var(--serif); letter-spacing: -.03em; appearance: none; }
+.search-input::placeholder { color: var(--muted); }
+.search-input:focus { outline: none; border-bottom-color: var(--tone-deep); box-shadow: 0 1px 0 var(--tone-deep); }
+.search-input:focus-visible { outline: none; }
+.search-message { margin: 1rem 0 .5rem; color: var(--muted); font-size: .85rem; line-height: 1.55; }
+.search-message:empty, .search-message[hidden] { display: none; }
+
+.search-results { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; margin: .75rem -1.25rem 0; padding: 0; border-top: 1px solid var(--line); }
+.search-results[hidden] { display: none; }
+.search-result { border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
+.search-result[aria-selected="true"] { background: var(--tone-soft); border-left-color: var(--tone-deep); }
+.search-result a { display: flex; flex-direction: column; gap: .2rem; padding: .8rem 1.25rem .85rem calc(1.25rem - 3px); text-decoration: none; color: var(--ink); }
+.search-meta { display: flex; flex-wrap: wrap; gap: .25rem .6rem; font: .6rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.search-number { padding: 0 .35rem; background: var(--tone-soft); color: var(--tone-deep); }
+.search-title { font: 1.15rem/1.3 var(--serif); letter-spacing: -.02em; }
+.search-heading { font-size: .82rem; font-weight: 600; line-height: 1.4; }
+.search-section-mark { color: var(--tone-deep); font-weight: 400; }
+.search-snippet { color: var(--muted); font-size: .8rem; line-height: 1.5; overflow-wrap: anywhere; }
+.search-result mark { background: var(--tone-soft); color: var(--ink); box-shadow: inset 0 -2px var(--tone-deep); padding: 0 .05em; }
+.search-result[aria-selected="true"] mark { background: var(--tone); color: var(--on-tone); }
+
+.search-keys { display: flex; gap: 1.25rem; margin: 0 -1.25rem -.75rem; padding: .55rem 1.25rem; border-top: 1px solid var(--line); font: .62rem/1.6 var(--mono); color: var(--muted); }
+.search-keys span { display: inline-flex; align-items: center; gap: .25rem; }
+.search-keys kbd { padding: .15rem .3rem; }
+.search-results:not([hidden]) + [role="status"] + .search-keys { border-top-color: var(--ink); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .search-dialog[open] { animation: search-in 140ms ease-out; }
+  .search-dialog[open]::backdrop { animation: search-fade 140ms ease-out; }
+}
+@keyframes search-in { from { opacity: 0; transform: translateY(-6px); } }
+@keyframes search-fade { from { opacity: 0; } }
+
+@media (max-width: 760px) {
+  .search-button { padding: .4rem .6rem; }
+  .search-kbd { display: none; }
+  .search-dialog { width: calc(100vw - 1rem); max-height: calc(100vh - 1rem); max-height: calc(100dvh - 1rem); margin-top: .5rem; box-shadow: 6px 6px 0 var(--tone); }
+  .search-panel { padding: .9rem 1rem .6rem; }
+  .search-input { font-size: 1.4rem; }
+  .search-results { margin-inline: -1rem; }
+  .search-result a { padding-inline: calc(1rem - 3px) 1rem; }
+  .search-keys { display: none; }
+}
+/* The button needs room in the header: drop the brand name a little earlier than base.css does. */
+@media (max-width: 480px) {
+  .header-inner:has(.search-button:not([hidden])) .brand-name { display: none; }
+  .site-header nav { gap: 1rem; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .search-kbd, .search-keys { display: none; }
+}

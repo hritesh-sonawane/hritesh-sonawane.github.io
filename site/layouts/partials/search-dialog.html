@@ -1,0 +1,19 @@
+{{- /* Owned by the search feature: dialog markup and script. A closed <dialog> renders nothing, so this is inert without JavaScript. */ -}}
+{{- with site.Home.OutputFormats.Get "json" }}
+<dialog id="search-dialog" class="search-dialog" data-search-dialog data-index="{{ .RelPermalink }}" aria-labelledby="search-title">
+  <div class="search-panel">
+    <div class="search-head">
+      <label id="search-title" class="search-label" for="search-input">Search the notes</label>
+      <button type="button" class="search-close" data-search-close>Esc<span class="visually-hidden"> — close search</span></button>
+    </div>
+    <input id="search-input" class="search-input" type="text" data-search-input role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" aria-describedby="search-message" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Lessons, headings, ideas…">
+    <p id="search-message" class="search-message" data-search-message></p>
+    <ul id="search-results" class="search-results" role="listbox" aria-label="Search results" data-search-results hidden></ul>
+    <p class="visually-hidden" role="status" data-search-status></p>
+    <p class="search-keys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></p>
+  </div>
+</dialog>
+{{- with resources.Get "js/search.js" | minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{- end }}
+{{- end }}

@@ -1,0 +1,25 @@
+{{ define "main" }}
+<div class="home-page">
+<section class="home-intro" aria-labelledby="home-title">
+  <h1 id="home-title">Hritesh Sonawane.</h1>
+  <div class="home-intro-copy">{{ .Content }}</div>
+</section>
+<section class="home-library" aria-labelledby="library-title">
+  <h2 id="library-title">Notes</h2>
+  {{ partial "subject-list.html" . }}
+  <p class="home-library-link"><a href="{{ with site.GetPage "/notes" }}{{ .RelPermalink }}{{ end }}">Browse all notes</a></p>
+</section>
+{{- $recent := first 5 (where (where site.RegularPages "Section" "notes") "Params.question" "!=" nil).ByLastmod.Reverse }}
+{{- with $recent }}
+<section class="home-recent" aria-labelledby="recent-title">
+  <h2 id="recent-title">Recent notes</h2>
+  <ul class="home-note-list">
+    {{- range . }}
+    {{- $course := partial "course.html" . }}
+    <li><a class="home-note-row" href="{{ .RelPermalink }}"{{ with $course }}{{ with .Params.tone }} data-tone="{{ . }}"{{ end }}{{ end }}><span>{{ .LinkTitle }}</span><time class="home-meta" datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "2 Jan 2006" }}</time></a></li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+</div>
+{{ end }}

@@ -1,0 +1,8 @@
+{{- /* Return the course root (a section with `course = true`) containing this page, or false. */ -}}
+{{- $course := false -}}
+{{- if .Params.course -}}
+  {{- $course = . -}}
+{{- else -}}
+  {{- range .Ancestors -}}{{- if .Params.course -}}{{- $course = . -}}{{- end -}}{{- end -}}
+{{- end -}}
+{{- return $course -}}

@@ -1,0 +1,17 @@
+{{- /* Shared by flowcharts, block diagrams, and state diagrams. */ -}}
+{{- $palette := hugo.Data.diagrams -}}
+{{- $tone := $palette.tones.accent -}}
+{{- with partial "course.html" .Page -}}
+  {{- with index $palette.tones .Params.tone }}{{ $tone = . }}{{ end -}}
+{{- end -}}
+{{- $classes := slice (printf "classDef neutral fill:%s,stroke:%s,color:%s,stroke-width:1.5px" $palette.paper $palette.muted $palette.ink) -}}
+{{- $roles := slice "compute" "memory" "queue" "io" -}}
+{{- if findRE `^(flowchart|graph)\b` (strings.TrimSpace .Inner) 1 -}}
+  {{- $roles = $roles | append "default" -}}
+{{- end -}}
+{{- range $roles -}}
+  {{- $classes = $classes | append (printf "classDef %s fill:%s,stroke:%s,color:%s,stroke-width:1.5px" . $tone.soft $tone.deep $palette.ink) -}}
+{{- end -}}
+{{- $classes = $classes | append (printf "classDef warn fill:%s,stroke:%s,color:%s,stroke-width:2px,stroke-dasharray:5 3" $palette.tones.rose.soft $palette.tones.rose.deep $palette.ink) -}}
+{{- $classes = $classes | append (printf "classDef good fill:%s,stroke:%s,color:%s,stroke-width:2px" $palette.tones.sage.soft $palette.tones.sage.deep $palette.ink) -}}
+{{- return (delimit $classes "\n") -}}
