@@ -6,7 +6,7 @@ weight = 1
 difficulty = 1
 prerequisites = []
 date = 2026-05-15
-lastmod = 2026-05-15
+lastmod = 2026-10-30
 verified = 2026-05-15
 +++
 
@@ -90,7 +90,7 @@ that header needs care.
 Whatever tool composed the request, the server receives the same kind of bytes.
 Look at which arrow the client does not control.
 
-```mermaid {title="A browser, a script, and a proxy all write the same request; only the TCP peer is not theirs"}
+```mermaid {title="Browser, script, or proxy can write the request; only the TCP peer is not theirs"}
 flowchart LR
   BR("Browser")
   CU("curl or a script")
@@ -229,7 +229,7 @@ Here is the forged header from the program below, laid out left to right with
 who wrote each entry. Start at the right, skip what your own proxies vouch for,
 and stop at the first address that is not yours.
 
-```mermaid {title="Read X-Forwarded-For from the right: the leftmost entry is the one the client invented"}
+```mermaid {title="Read X-Forwarded-For from the right: the client invents the leftmost entry"}
 block-beta
   columns 3
   A["192.168.50.20"] B["198.51.100.9"] C["peer 10.0.0.5"]
@@ -260,7 +260,7 @@ part; its `USE_X_FORWARDED_HOST` setting is off by default for the reason above.
 The reset attack in order: the attacker never sees the victim's inbox, only the
 token that the poisoned link delivers.
 
-```mermaid {title="Password-reset poisoning: a link built from Host sends the victim's token to the attacker"}
+```mermaid {title="Reset poisoning: a link built from Host sends the victim's token to the attacker"}
 sequenceDiagram
   autonumber
   actor M as Mallory

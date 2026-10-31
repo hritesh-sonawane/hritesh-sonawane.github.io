@@ -6,7 +6,7 @@ weight = 5
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/securing-agents/02-identity-and-authorization', '/notes/ai-security-engineering/securing-agents/04-sandboxing-and-egress']
 date = 2026-05-07
-lastmod = 2026-05-07
+lastmod = 2026-10-30
 verified = 2026-05-07
 +++
 
@@ -47,11 +47,10 @@ flowchart LR
   REG["<b>Public registries</b>"] -.->|"review, scan, pin"| T1
   S3 -.->|"tool list changed"| ALERT["<b>Suspend and re-review</b>"]
   class AG compute
-  class T1,T2,T3,T4 good
+  class T1,T2,T3,T4,ALERT good
   class S1,S2 io
   class S3 warn
   class REG neutral
-  class ALERT warn
 ```
 
 ## How it really works
@@ -444,8 +443,7 @@ flowchart LR
   P --> CMP
   CMP -->|"yes"| OK
   CMP -->|"no"| SUS
-  class OK good
-  class SUS warn
+  class OK,SUS good
   class P memory
 ```
 

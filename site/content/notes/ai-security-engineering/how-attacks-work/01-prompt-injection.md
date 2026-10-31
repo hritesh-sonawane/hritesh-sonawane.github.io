@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/ai-security-engineering/threat-landscape/01-why-ai-security-is-different']
 date = 2026-04-07
-lastmod = 2026-04-07
+lastmod = 2026-10-30
 verified = 2026-04-07
 +++
 
@@ -29,6 +29,7 @@ outcome.
 
 ```mermaid {title="Indirect injection through an inbox"}
 sequenceDiagram
+  autonumber
   participant A as Attacker
   participant W as Email, page, or file
   participant U as User

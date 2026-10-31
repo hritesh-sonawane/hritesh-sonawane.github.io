@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/cryptography/symmetric-cryptography/01-block-ciphers-and-modes']
 date = 2026-08-13
-lastmod = 2026-08-13
+lastmod = 2026-10-30
 verified = 2026-08-13
 +++
 
@@ -51,10 +51,8 @@ flowchart LR
     CHK -- no --> REJ["error, no plaintext"]
     CHK -- yes --> DEC["decrypt"] --> OUT["plaintext"]
   end
-  class N1 warn
   class ENC,MAC1,DEC compute
-  class CHK good
-  class REJ warn
+  class CHK,REJ good
 ```
 
 The nonce is highlighted because it is the one input the caller must manage

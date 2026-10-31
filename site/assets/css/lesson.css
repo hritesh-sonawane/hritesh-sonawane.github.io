@@ -2,7 +2,10 @@
 .is-course .reader-layout { grid-template-columns: 236px minmax(0, 44rem) 170px; justify-content: space-between; }
 
 /* Course tree */
-.course-sidebar { position: sticky; top: 115px; align-self: start; max-height: calc(100vh - 135px); overflow-y: auto; font-size: .75rem; padding-right: .5rem; }
+/* overflow-y: auto clips horizontally too, so the box gets an inner gutter (cancelled by
+   negative margins, same content position) for the tree links' -.4rem current-lesson bar and
+   the 3px + 4px focus ring. Top/max-height absorb the 8px vertical gutter. */
+.course-sidebar { position: sticky; top: 107px; align-self: start; max-height: calc(100vh - 119px); overflow-y: auto; font-size: .75rem; padding: 8px .5rem 8px 1rem; margin: -8px 0 -8px -1rem; }
 .course-tree-title { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; font: 1.15rem/1.2 var(--serif); letter-spacing: -.03em; text-decoration: none; }
 .course-tree-title[aria-current] { text-decoration: underline; text-decoration-color: var(--tone-deep); }
 .course-tree, .course-tree ol { list-style: none; margin: 0; padding: 0; }
@@ -151,7 +154,7 @@
   .is-course .reader-layout { grid-template-columns: 210px minmax(0, 1fr); }
 }
 @media (max-width: 760px) {
-  .course-sidebar { position: static; max-height: none; margin-bottom: 2rem; padding: 0; }
+  .course-sidebar { position: static; max-height: none; overflow: visible; margin: 0 0 2rem; padding: 0; }
   .course-tree-title { margin-bottom: .5rem; }
   .tone-block { padding: 1.25rem 1.25rem 1.5rem; margin-right: 6px; box-shadow: 6px 6px 0 var(--shadow); }
   .block-number { font-size: 4.25rem; }

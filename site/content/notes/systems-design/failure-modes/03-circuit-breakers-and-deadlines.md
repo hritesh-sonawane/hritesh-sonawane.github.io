@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/systems-design/failure-modes/01-partial-failure-and-timeouts', '/notes/systems-design/failure-modes/02-retries-and-idempotency']
 date = 2026-09-24
-lastmod = 2026-09-24
+lastmod = 2026-10-30
 verified = 2026-09-24
 +++
 
@@ -33,15 +33,20 @@ improvised**.
 
 ## A picture
 
-```mermaid {title="Circuit breaker states"}
-flowchart LR
-  C["<b>Closed</b><br/><small>calls pass through;<br/>outcomes recorded</small>"]
-  O["<b>Open</b><br/><small>calls fail fast;<br/>no load on dependency</small>"]
-  H["<b>Half-open</b><br/><small>a few probe calls</small>"]
-  C -->|"failure rate over threshold"| O
-  O -->|"cooldown elapsed"| H
-  H -->|"probes succeed"| C
-  H -->|"any probe fails"| O
+```mermaid {title="A breaker opens on failures and probes before it closes again"}
+stateDiagram-v2
+  direction LR
+  state "Closed" as C
+  state "Open" as O
+  state "Half-open" as H
+  C : calls pass through, outcomes recorded
+  O : calls fail fast, no load on dependency
+  H : a few probe calls
+  [*] --> C
+  C --> O: failure rate over threshold
+  O --> H: cooldown elapsed
+  H --> C: probes succeed
+  H --> O: any probe fails
   class C good
   class O warn
   class H queue

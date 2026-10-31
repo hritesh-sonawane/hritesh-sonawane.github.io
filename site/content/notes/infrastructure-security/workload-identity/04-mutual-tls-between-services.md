@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/workload-identity/02-attestation-and-spiffe', '/notes/cryptography/public-key-cryptography/04-the-tls-handshake']
 date = 2026-07-08
-lastmod = 2026-07-08
+lastmod = 2026-10-30
 verified = 2026-07-08
 +++
 
@@ -45,9 +45,8 @@ flowchart LR
   CA -. "trust bundle" .-> PP
   class W,P compute
   class PW,PP queue
-  class AZ good
+  class AZ,X good
   class CA memory
-  class X warn
 ```
 
 The application containers speak plain HTTP to their local proxy. The proxies
@@ -236,7 +235,7 @@ identities such as `web.frontend.serviceaccount.identity.linkerd.cluster.local`.
 Istio's evaluation order as a decision tree; note the `no` branch under "Any
 ALLOW policy", which allows everything.
 
-```mermaid {title="Istio checks CUSTOM, then DENY, then ALLOW, and defaults to allow without an ALLOW policy"}
+```mermaid {title="Istio checks CUSTOM, then DENY, then ALLOW, and allows when no ALLOW policy exists"}
 flowchart TB
   R["<b>Request</b><br/><small>verified peer ID, method, path</small>"] --> C{"CUSTOM check denies?"}
   C -- yes --> X1["Deny"]
@@ -270,7 +269,7 @@ enforced by the mesh proxies.
 The program below replays this with one address and three moments; the
 timeline shows who owns `10.0.3.7` and what each policy does about it.
 
-```mermaid {title="One address changes hands, the IP allowlist follows the address and gets it wrong twice"}
+```mermaid {title="One address changes hands; the IP allowlist follows it and gets it wrong twice"}
 timeline
   Hour 1 : web runs at 10.0.3.7 : both policies allow web
   Hour 6 : batch pod receives 10.0.3.7 : IP allowlist admits batch : identity policy denies it

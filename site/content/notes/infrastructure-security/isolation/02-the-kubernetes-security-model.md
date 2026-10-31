@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/isolation/01-containers-from-the-kernel-up', '/notes/infrastructure-security/foundations/03-cloud-iam-fundamentals']
 date = 2026-07-20
-lastmod = 2026-07-20
+lastmod = 2026-10-30
 verified = 2026-07-20
 +++
 
@@ -37,7 +37,6 @@ flowchart LR
   ADM --> ETCD[("<b>etcd</b><br/><small>object store, secrets</small>")]
   AUTHZ -.->|deny| D["<b>403</b>"]
   ADM -.->|reject| D
-  class C warn
   class AUTHN,AUTHZ,ADM good
   class ETCD memory
   class D neutral

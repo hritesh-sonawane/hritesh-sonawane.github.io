@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/application-security/authentication/02-sessions-and-cookies']
 date = 2026-05-25
-lastmod = 2026-05-25
+lastmod = 2026-10-30
 verified = 2026-05-25
 +++
 
@@ -36,6 +36,7 @@ that started the flow.**
 
 ```mermaid {title="Authorization code flow with PKCE"}
 sequenceDiagram
+  autonumber
   participant U as User browser
   participant C as Client app
   participant AS as Authorization server

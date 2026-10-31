@@ -6,7 +6,7 @@ weight = 3
 difficulty = 2
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises']
 date = 2026-09-16
-lastmod = 2026-09-16
+lastmod = 2026-10-30
 verified = 2026-09-16
 +++
 
@@ -129,7 +129,6 @@ flowchart LR
   P --> N["<b>10 nodes</b><br/><small>÷ 15,000 per node at 60%</small>"]
   N --> Z["<b>15 nodes</b><br/><small>× 1.5 to survive a zone</small>"]
   class U,A neutral
-  class P warn
   class N compute
   class Z good
 ```

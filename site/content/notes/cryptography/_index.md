@@ -3,6 +3,7 @@ title = 'Cryptography'
 description = 'Keys, signatures, and encryption, connected to the assumptions that make them useful.'
 weight = 4
 tone = 'lilac'
+group = 'security'
 status = 'Course'
 course = true
 +++
@@ -30,7 +31,6 @@ flowchart LR
   class P neutral
   class S,A compute
   class K good
-  class AP warn
 ```
 
 ## How each lesson works

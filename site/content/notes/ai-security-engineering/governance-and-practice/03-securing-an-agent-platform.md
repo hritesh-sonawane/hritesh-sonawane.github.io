@@ -6,7 +6,7 @@ weight = 3
 difficulty = 4
 prerequisites = ['/notes/ai-security-engineering/securing-agents/02-identity-and-authorization', '/notes/ai-security-engineering/securing-agents/03-architectural-defenses', '/notes/ai-security-engineering/securing-agents/04-sandboxing-and-egress', '/notes/ai-security-engineering/governance-and-practice/02-the-red-team-program']
 date = 2026-05-13
-lastmod = 2026-05-13
+lastmod = 2026-10-30
 verified = 2026-05-13
 +++
 
@@ -222,8 +222,7 @@ flowchart TB
   AP -->|yes| A5
   A5 -->|no| DENY
   A5 -->|yes| ALLOW
-  class DENY warn
-  class ALLOW good
+  class ALLOW,DENY good
 ```
 
 - **Session taint** is set when any untrusted content enters the context and is

@@ -1,8 +1,9 @@
 +++
 title = 'Systems design'
-description = 'Invariants, failure modes, concurrency, and the tradeoffs behind systems that keep their promises.'
+description = 'Invariants, failure, concurrency, scale, and data, then the same discipline applied to systems built around models: interfaces, retrieval, agents, evaluation, and AI infrastructure.'
 weight = 5
 tone = 'ochre'
+group = 'systems'
 status = 'Course'
 course = true
 +++
@@ -15,8 +16,13 @@ discipline seen from two sides: both ask what still holds when something goes
 wrong.
 
 The course starts from invariants and state machines, follows the ways systems
-fail, works through concurrency and consistency, and ends with four complete
-designs, each one argued from its invariants rather than from a diagram of boxes.
+fail, works through concurrency, consistency, scale, distributed data, and
+observability, and works four complete designs, each argued from its invariants
+rather than from a diagram of boxes. The second half applies the same discipline
+to systems built around a model, which is slow, expensive per call,
+non-deterministic, and wrong some of the time: model interfaces, retrieval,
+AI building blocks and infrastructure, agentic systems, evaluation in
+production, and five more worked designs.
 It assumes you can read Python and have built or operated a web service. It does
 **not** assume a distributed-systems background.
 
@@ -27,13 +33,16 @@ flowchart LR
   I["<b>Invariants</b><br/><small>what must hold</small>"] --> F["<b>Failure</b><br/><small>partial, slow, overloaded</small>"]
   F --> C["<b>Concurrency</b><br/><small>races, leases, consistency</small>"]
   C --> P["<b>Production</b><br/><small>SLOs, change, recovery</small>"]
-  P --> W["<b>Worked designs</b><br/><small>argued end to end</small>"]
+  P --> S["<b>Scale and data</b><br/><small>queues, shards, consensus</small>"]
+  S --> W["<b>Worked designs</b><br/><small>argued end to end</small>"]
+  W --> A["<b>AI systems</b><br/><small>models, retrieval, agents, evals</small>"]
   W -.->|"incidents sharpen the invariants"| I
   class I neutral
-  class F warn
   class C memory
   class P compute
   class W good
+  class S queue
+  class A compute
 ```
 
 ## How each lesson works

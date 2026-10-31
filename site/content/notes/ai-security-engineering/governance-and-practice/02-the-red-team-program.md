@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/threat-landscape/02-threat-modeling-ai-systems', '/notes/ai-security-engineering/how-attacks-work/01-prompt-injection', '/notes/ai-security-engineering/securing-each-stage/04-build-and-test']
 date = 2026-05-11
-lastmod = 2026-05-11
+lastmod = 2026-10-30
 verified = 2026-05-11
 +++
 
@@ -29,7 +29,7 @@ over time and stays down.
 
 ## A picture
 
-```mermaid {title="The red-team loop"}
+```mermaid {title="Each finding becomes a fix, a regression case, and a threat-model update"}
 flowchart LR
   TM["<b>Threat model</b><br/><small>assets, sources, sinks</small>"] --> SC["<b>Scope and objectives</b><br/><small>'exfiltrate a canary',<br/>'trigger an ungated refund'</small>"]
   SC --> AUTO["<b>Automated attacks</b><br/><small>breadth, every release</small>"]

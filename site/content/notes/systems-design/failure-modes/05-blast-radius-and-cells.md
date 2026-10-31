@@ -6,7 +6,7 @@ weight = 5
 difficulty = 3
 prerequisites = ['/notes/systems-design/failure-modes/03-circuit-breakers-and-deadlines', '/notes/systems-design/failure-modes/04-overload-and-backpressure']
 date = 2026-09-28
-lastmod = 2026-09-28
+lastmod = 2026-10-30
 verified = 2026-09-28
 +++
 
@@ -32,7 +32,7 @@ design until no single fault takes everyone**.
 
 ## A picture
 
-```mermaid {title="A cell-based service"}
+```mermaid {title="A thin router sends each customer to one full-stack cell"}
 flowchart TB
   U["<b>Clients</b>"] --> R["<b>Cell router</b><br/><small>customer → cell;<br/>as thin as possible</small>"]
   R --> C1["<b>Cell 1</b><br/><small>full stack:<br/>API, workers, data</small>"]

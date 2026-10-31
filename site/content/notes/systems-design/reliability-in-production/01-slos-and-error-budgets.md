@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises']
 date = 2026-10-10
-lastmod = 2026-10-10
+lastmod = 2026-10-30
 verified = 2026-10-10
 +++
 
@@ -46,7 +46,7 @@ flowchart LR
   class I,O compute
   class B memory
   class R queue
-  class P,F warn
+  class F warn
   class T good
 ```
 

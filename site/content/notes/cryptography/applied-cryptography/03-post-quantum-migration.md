@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/cryptography/public-key-cryptography/01-key-exchange', '/notes/cryptography/public-key-cryptography/02-digital-signatures']
 date = 2026-09-08
-lastmod = 2026-09-08
+lastmod = 2026-10-30
 verified = 2026-09-08
 +++
 
@@ -222,8 +222,7 @@ flowchart LR
   PK --> V
   V -->|"yes"| OK
   V -->|"no"| NO
-  class OK good
-  class NO warn
+  class OK,NO good
 ```
 
 ## Code

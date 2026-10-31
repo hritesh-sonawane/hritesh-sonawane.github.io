@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/cryptography/symmetric-cryptography/03-macs-and-hmac', '/notes/cryptography/applied-cryptography/01-how-cryptography-fails-in-practice']
 date = 2026-09-06
-lastmod = 2026-09-06
+lastmod = 2026-10-30
 verified = 2026-09-06
 +++
 
@@ -190,6 +190,7 @@ neither chose nor can predict, and the random factor is removed afterwards.
 
 ```mermaid {title="Blinding decouples the timed computation from the attacker's input"}
 sequenceDiagram
+  autonumber
   participant A as Caller, chooses c
   participant D as RSA private-key operation
   A->>D: Ciphertext c

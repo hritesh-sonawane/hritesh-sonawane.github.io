@@ -6,7 +6,7 @@ weight = 2
 difficulty = 2
 prerequisites = ['/notes/application-security/authentication/01-storing-credentials']
 date = 2026-05-23
-lastmod = 2026-05-23
+lastmod = 2026-10-30
 verified = 2026-05-23
 +++
 
@@ -32,6 +32,7 @@ password, and keep the authoritative session state on the server.**
 
 ```mermaid {title="Session fixation, and where rotation stops it"}
 sequenceDiagram
+  autonumber
   participant M as Attacker
   participant V as Victim browser
   participant S as Server
@@ -140,8 +141,7 @@ flowchart TB
   C -->|"no, Domain=example.com"| X
   C -->|"yes"| K
   class S io
-  class X warn
-  class K good
+  class K,X good
 ```
 
 ### Session fixation

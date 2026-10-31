@@ -6,7 +6,7 @@ weight = 1
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/foundations/02-threat-modeling-infrastructure', '/notes/infrastructure-security/workload-identity/03-federated-workload-identity']
 date = 2026-07-26
-lastmod = 2026-07-26
+lastmod = 2026-10-30
 verified = 2026-07-26
 +++
 
@@ -247,8 +247,7 @@ flowchart LR
   X -->|yes| OK["<b>Publish</b>"]
   X -->|no| BAD["<b>Stop</b><br/><small>one builder is lying or broken</small>"]
   class D1,D2 memory
-  class OK good
-  class BAD warn
+  class OK,BAD good
 ```
 
 ### SLSA build levels

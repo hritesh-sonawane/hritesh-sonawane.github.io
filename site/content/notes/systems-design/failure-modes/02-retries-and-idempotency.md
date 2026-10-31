@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/systems-design/failure-modes/01-partial-failure-and-timeouts']
 date = 2026-09-22
-lastmod = 2026-09-22
+lastmod = 2026-10-30
 verified = 2026-09-22
 +++
 
@@ -31,6 +31,7 @@ deduplicate, and never retry without a limit that holds under total failure**.
 
 ```mermaid {title="A retried charge with an idempotency key"}
 sequenceDiagram
+  autonumber
   participant C as Client
   participant S as Payment API
   participant DB as Database
@@ -86,8 +87,8 @@ flowchart TB
   F -->|"request is wrong"| NO
   I -->|"yes"| Y
   I -->|"no"| X
-  class N,Y,RA good
-  class NO,X warn
+  class N,Y,RA,NO good
+  class X warn
 ```
 
 HTTP defines which methods are **idempotent**: GET, HEAD, OPTIONS, TRACE, PUT,

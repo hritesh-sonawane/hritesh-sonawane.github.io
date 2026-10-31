@@ -1,17 +1,24 @@
-{{- /* Shared by flowcharts, block diagrams, and state diagrams. */ -}}
+{{- /* Shared by flowcharts, block diagrams, and state diagrams.
+  The hand-drawn look paints fills as Rough.js hatching, so course nodes use the
+  mid-strength `hatch` tint and `warn`/`good` use the full `tone` with a heavier
+  outline: in a rose or sage course, ordinary nodes stay lighter than the role
+  they share a hue with. A course tone missing from data/diagrams.json falls
+  back to accent. */ -}}
 {{- $palette := hugo.Data.diagrams -}}
 {{- $tone := $palette.tones.accent -}}
 {{- with partial "course.html" .Page -}}
-  {{- with index $palette.tones .Params.tone }}{{ $tone = . }}{{ end -}}
+  {{- with .Params.tone -}}
+    {{- with index $palette.tones (string .) }}{{ $tone = . }}{{ end -}}
+  {{- end -}}
 {{- end -}}
-{{- $classes := slice (printf "classDef neutral fill:%s,stroke:%s,color:%s,stroke-width:1.5px" $palette.paper $palette.muted $palette.ink) -}}
+{{- $classes := slice (printf "classDef neutral fill:%s,stroke:%s,color:%s,stroke-width:1.5px" $palette.card $palette.muted $palette.ink) -}}
 {{- $roles := slice "compute" "memory" "queue" "io" -}}
 {{- if findRE `^(flowchart|graph)\b` (strings.TrimSpace .Inner) 1 -}}
   {{- $roles = $roles | append "default" -}}
 {{- end -}}
 {{- range $roles -}}
-  {{- $classes = $classes | append (printf "classDef %s fill:%s,stroke:%s,color:%s,stroke-width:1.5px" . $tone.soft $tone.deep $palette.ink) -}}
+  {{- $classes = $classes | append (printf "classDef %s fill:%s,stroke:%s,color:%s,stroke-width:1.5px" . ($tone.hatch | default $tone.soft) $tone.deep $palette.ink) -}}
 {{- end -}}
-{{- $classes = $classes | append (printf "classDef warn fill:%s,stroke:%s,color:%s,stroke-width:2px,stroke-dasharray:5 3" $palette.tones.rose.soft $palette.tones.rose.deep $palette.ink) -}}
-{{- $classes = $classes | append (printf "classDef good fill:%s,stroke:%s,color:%s,stroke-width:2px" $palette.tones.sage.soft $palette.tones.sage.deep $palette.ink) -}}
+{{- $classes = $classes | append (printf "classDef warn fill:%s,stroke:%s,color:%s,stroke-width:2.2px,stroke-dasharray:6 4" $palette.tones.rose.tone $palette.tones.rose.deep $palette.ink) -}}
+{{- $classes = $classes | append (printf "classDef good fill:%s,stroke:%s,color:%s,stroke-width:2.2px" $palette.tones.sage.tone $palette.tones.sage.deep $palette.ink) -}}
 {{- return (delimit $classes "\n") -}}

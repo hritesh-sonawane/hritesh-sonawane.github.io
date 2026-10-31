@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/workload-identity/01-why-static-credentials-fail', '/notes/infrastructure-security/workload-identity/02-attestation-and-spiffe']
 date = 2026-07-06
-lastmod = 2026-07-06
+lastmod = 2026-10-30
 verified = 2026-07-06
 +++
 
@@ -36,6 +36,7 @@ carefully as a firewall rule that opens production to the internet.
 
 ```mermaid {title="Exchanging a platform token for cloud credentials"}
 sequenceDiagram
+  autonumber
   participant J as CI job (acme/infra, env prod)
   participant P as CI platform OIDC issuer
   participant STS as Cloud STS
@@ -134,6 +135,7 @@ stateDiagram-v2
     API server says invalid, the bound pod is gone
     External STS says valid, it checks only signature and claims
   end note
+  class Orphaned warn
 ```
 
 On AWS, **IAM Roles for Service Accounts** (IRSA) registers the cluster's

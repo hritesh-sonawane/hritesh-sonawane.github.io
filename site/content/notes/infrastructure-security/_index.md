@@ -3,6 +3,7 @@ title = 'Infrastructure security'
 description = 'Workload identity, secrets, isolation, and the trust decisions underneath a running service.'
 weight = 3
 tone = 'sage'
+group = 'security'
 status = 'Course'
 course = true
 +++

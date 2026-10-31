@@ -6,7 +6,7 @@ weight = 3
 difficulty = 2
 prerequisites = ['/notes/infrastructure-security/foundations/02-threat-modeling-infrastructure']
 date = 2026-06-30
-lastmod = 2026-06-30
+lastmod = 2026-10-30
 verified = 2026-06-30
 +++
 
@@ -42,8 +42,7 @@ flowchart TD
   B -->|yes| ALLOW["<b>Allow</b>"]
   class R io
   class D,O,A,B neutral
-  class DENY1,DENY2,DENY3,DENY4 warn
-  class ALLOW good
+  class ALLOW,DENY1,DENY2,DENY3,DENY4 good
 ```
 
 The real flowchart in the AWS documentation has more branches, notably for
@@ -183,7 +182,7 @@ A role answers two separate questions with two separate documents:
 Follow one GitHub job through both doors: the trust policy is checked once, at
 assume time, and the permission policy on every call after that.
 
-```mermaid {title="Two doors: the trust policy decides who enters, the permission policy decides what they do"}
+```mermaid {title="Two doors: the trust policy decides who enters, the permission policy what they do"}
 sequenceDiagram
   autonumber
   participant J as GitHub job

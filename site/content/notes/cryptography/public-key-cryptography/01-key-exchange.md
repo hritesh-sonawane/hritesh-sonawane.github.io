@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/cryptography/foundations/01-start-from-the-property', '/notes/cryptography/symmetric-cryptography/03-macs-and-hmac']
 date = 2026-08-19
-lastmod = 2026-08-19
+lastmod = 2026-10-30
 verified = 2026-08-19
 +++
 
@@ -33,6 +33,7 @@ difference.
 
 ```mermaid {title="An active man in the middle runs two exchanges"}
 sequenceDiagram
+  autonumber
   participant A as Alice
   participant M as Mallory
   participant B as Bob
@@ -127,8 +128,7 @@ flowchart TB
   Q2 -->|"yes (RFC 7919, RFC 3526)"| F["<b>ffdhe2048 and up</b><br/><small>safe prime, reviewed</small>"]
   Q2 -->|no| R["<b>Refuse</b><br/><small>export-size, 1024-bit, server-generated prime</small>"]
   class S neutral
-  class X,F good
-  class R warn
+  class X,F,R good
 ```
 
 ### X25519 (RFC 7748)

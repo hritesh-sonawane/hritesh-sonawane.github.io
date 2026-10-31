@@ -6,7 +6,7 @@ weight = 2
 difficulty = 2
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises']
 date = 2026-09-14
-lastmod = 2026-09-14
+lastmod = 2026-10-30
 verified = 2026-09-14
 +++
 
@@ -34,21 +34,28 @@ and enforce the table where the state is stored.
 ## A picture
 
 ```mermaid {title="A payment order, with one transition that should not exist"}
-flowchart LR
-  C["<b>CREATED</b>"] -->|authorize| A["<b>AUTHORIZED</b>"]
-  C -->|cancel| X["<b>CANCELLED</b><br/><small>terminal</small>"]
-  A -->|void| V["<b>VOIDED</b><br/><small>terminal</small>"]
-  A -->|"capture(total)"| P["<b>CAPTURED</b>"]
-  P -->|"refund(n), partial"| P
-  P -->|"refund(n), last unit"| R["<b>REFUNDED</b><br/><small>terminal</small>"]
-  X -.->|"reopen (added later)"| C
+stateDiagram-v2
+  direction LR
+  state "CREATED" as C
+  state "AUTHORIZED" as A
+  state "CAPTURED" as P
+  state "CANCELLED (terminal)" as X
+  state "VOIDED (terminal)" as V
+  state "REFUNDED (terminal)" as R
+  [*] --> C
+  C --> A: authorize
+  C --> X: cancel
+  A --> V: void
+  A --> P: capture(total)
+  P --> P: refund(n), partial
+  P --> R: refund(n), last unit
+  X --> C: reopen (added later)
   class C neutral
   class A,P compute
   class X,V,R good
-  linkStyle 6 stroke-dasharray: 4 4
 ```
 
-The dashed edge is the kind of change that arrives through a support tool
+The reopen edge is the kind of change that arrives through a support tool
 months after the design: harmless-looking, and it breaks the promise that a
 terminal state stays terminal.
 

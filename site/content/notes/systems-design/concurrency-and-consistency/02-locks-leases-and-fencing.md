@@ -6,7 +6,7 @@ weight = 2
 difficulty = 4
 prerequisites = ['/notes/systems-design/concurrency-and-consistency/01-races-and-check-then-act', '/notes/systems-design/failure-modes/01-partial-failure-and-timeouts']
 date = 2026-10-02
-lastmod = 2026-10-02
+lastmod = 2026-10-30
 verified = 2026-10-02
 +++
 
@@ -37,6 +37,7 @@ client who should not.**
 
 ```mermaid {title="A fencing token rejects the paused holder"}
 sequenceDiagram
+  autonumber
   participant A as Client A
   participant L as Lock service
   participant B as Client B
@@ -178,8 +179,7 @@ flowchart LR
   B -- "write, 34" --> X
   X -- yes --> S
   X -- no --> R
-  class X good
-  class R warn
+  class X,R good
 ```
 
 Real coordination services already provide such numbers:

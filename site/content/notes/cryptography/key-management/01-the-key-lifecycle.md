@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/cryptography/foundations/01-start-from-the-property']
 date = 2026-08-27
-lastmod = 2026-08-27
+lastmod = 2026-10-30
 verified = 2026-08-27
 +++
 
@@ -30,18 +30,34 @@ You are storing them.
 ## A picture
 
 ```mermaid {title="Key states in NIST SP 800-57 Part 1 Rev. 5"}
-flowchart LR
-  PA["<b>Pre-activation</b><br/><small>generated, not yet usable</small>"] --> AC["<b>Active</b><br/><small>protect and process</small>"]
-  AC <--> SU["<b>Suspended</b><br/><small>temporarily paused</small>"]
-  AC --> DE["<b>Deactivated</b><br/><small>process only</small>"]
+stateDiagram-v2
+  direction LR
+  state "Pre-activation" as PA
+  state "Active" as AC
+  state "Suspended" as SU
+  state "Deactivated" as DE
+  state "Compromised" as CO
+  state "Destroyed" as DS
+  PA : generated, not yet usable
+  AC : protect and process
+  SU : temporarily paused
+  DE : process only
+  CO : stop, assess, recover
+  DS : material gone, metadata kept
+  [*] --> PA
+  PA --> AC
+  AC --> SU
+  SU --> AC
+  AC --> DE
   SU --> DE
-  DE --> DS["<b>Destroyed</b><br/><small>material gone, metadata kept</small>"]
+  DE --> DS
   PA --> DS
-  PA -.-> CO["<b>Compromised</b><br/><small>stop, assess, recover</small>"]
-  AC -.-> CO
-  SU -.-> CO
-  DE -.-> CO
+  PA --> CO: discovered
+  AC --> CO: discovered
+  SU --> CO: discovered
+  DE --> CO: discovered
   CO --> DS
+  DS --> [*]
   class PA neutral
   class AC good
   class SU,DE memory
@@ -49,7 +65,7 @@ flowchart LR
   class DS io
 ```
 
-Solid arrows are planned transitions. Dotted arrows are the one transition
+Unlabeled arrows are planned transitions. The arrows marked "discovered" are the one transition
 nobody plans: compromise can be discovered in any state except destroyed.
 
 ## How it really works
@@ -73,20 +89,6 @@ lesson. When a data-encryption key is deactivated, every record it ever sealed
 still exists. Refusing to decrypt them would destroy the data along with the
 key. So retirement is a two-step process: **stop protecting first, stop
 processing much later**, and only destroy once nothing still needs the key.
-
-Read each row as the permission the key store enforces. Protection stops the moment a key leaves active; processing lasts until destruction.
-
-```mermaid {title="Protect stops when a key leaves active, process continues until it is destroyed"}
-block-beta
-  columns 3
-  H1["State"] H2["Protect: encrypt, sign, wrap"] H3["Process: decrypt, verify, unwrap"]
-  S1["Pre-activation"] P1["No"] Q1["No"]
-  S2["Active"] P2["Yes"] Q2["Yes"]
-  S3["Suspended"] P3["No"] Q3["If policy allows"]
-  S4["Deactivated"] P4["No"] Q4["Yes, as needed"]
-  S5["Compromised"] P5["No"] Q5["Tightly controlled only"]
-  S6["Destroyed"] P6["No"] Q6["No"]
-```
 
 The same split applies to signatures. A retired signing key must not sign new
 documents, but its public key may need to verify old ones for years: firmware
@@ -156,7 +158,7 @@ days.
 
 The bars show how many days a single AES-GCM key with random nonces lasts before it reaches 2^32 encryptions; the line is a two-year originator-usage period.
 
-```mermaid {title="At ten million encryptions a day, the GCM limit arrives before a two-year cryptoperiod ends"}
+```mermaid {title="At ten million encryptions a day, the GCM limit comes before a two-year cryptoperiod"}
 xychart-beta
   title "Days until one key reaches 2^32 encryptions"
   x-axis "Encryptions per day" ["1 million", "5 million", "10 million", "50 million"]

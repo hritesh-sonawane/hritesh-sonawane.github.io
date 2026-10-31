@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/secrets/01-the-secret-lifecycle', '/notes/infrastructure-security/workload-identity/03-federated-workload-identity']
 date = 2026-07-12
-lastmod = 2026-07-12
+lastmod = 2026-10-30
 verified = 2026-07-12
 +++
 
@@ -33,6 +33,7 @@ per workload with a lease, rather than distributing a shared one**.
 
 ```mermaid {title="A pod gets a database credential that expires"}
 sequenceDiagram
+  autonumber
   participant P as Pod (shop/api)
   participant V as Vault
   participant K as Kubernetes API
@@ -136,8 +137,7 @@ flowchart TB
   D1 -->|no| D2@{ shape: diam, label: "Any policy grants<br/>this capability?" }
   D2 -->|no| NO
   D2 -->|yes| OK["<b>Allowed</b>"]
-  class NO warn
-  class OK good
+  class OK,NO good
 ```
 
 ### Leases, renewal, and the maximum TTL

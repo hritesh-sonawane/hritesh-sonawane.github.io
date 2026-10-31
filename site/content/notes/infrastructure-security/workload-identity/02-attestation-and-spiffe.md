@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/workload-identity/01-why-static-credentials-fail']
 date = 2026-07-04
-lastmod = 2026-07-04
+lastmod = 2026-10-30
 verified = 2026-07-04
 +++
 
@@ -36,6 +36,7 @@ other than the caller.
 
 ```mermaid {title="Two attestations, then an SVID"}
 sequenceDiagram
+  autonumber
   participant C as Cloud provider
   participant AG as SPIRE agent (node)
   participant S as SPIRE server
@@ -142,7 +143,7 @@ sequenceDiagram
   A->>S: node attestation with the document
   S->>S: signature verifies, account trusted, i-0abc not seen before
   S-->>A: agent SVID for i-0abc
-  rect rgb(249, 232, 203)
+  rect rgb(226, 239, 216)
   X->>S: same document, byte for byte
   S->>S: signature still verifies
   S-->>X: refused, i-0abc already attested

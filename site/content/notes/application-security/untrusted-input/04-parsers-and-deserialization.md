@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/application-security/untrusted-input/01-injection-and-parameterization', '/notes/application-security/authorization/01-broken-object-level-authorization']
 date = 2026-06-14
-lastmod = 2026-06-14
+lastmod = 2026-10-30
 verified = 2026-06-14
 +++
 
@@ -313,8 +313,7 @@ flowchart TB
   CL -->|"no"| E3["<b>400 and close</b>"]
   CL -->|"yes"| OK2["<b>Frame by byte count</b>"]
   class TE,CH,BOTH,CL neutral
-  class E1,E2,E3 warn
-  class OK1,OK2 good
+  class OK1,OK2,E1,E2,E3 good
 ```
 
 The defensive design follows directly: **reject ambiguous framing at the

@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/foundations/03-cloud-iam-fundamentals', '/notes/infrastructure-security/secrets/02-vaults-and-dynamic-secrets']
 date = 2026-07-14
-lastmod = 2026-07-14
+lastmod = 2026-10-30
 verified = 2026-07-14
 +++
 
@@ -128,8 +128,7 @@ flowchart TB
   D2 -->|no| D3@{ shape: diam, label: "Grant matches<br/>op and context?" }
   D3 -->|yes| OK
   D3 -->|no| NO
-  class NO warn
-  class OK good
+  class OK,NO good
 ```
 
 Cross-account use needs both sides: the key policy in the owning account must

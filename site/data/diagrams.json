@@ -6,11 +6,14 @@
   "soft": "#ebe9df",
   "card": "#f3f1ea",
   "signal": "#ff4f1a",
+  "sketch": { "seed": 7, "font": "Excalifont" },
   "tones": {
-    "accent": { "tone": "#7ea4dc", "deep": "#2443b5", "soft": "#e1e9f7" },
-    "rose": { "tone": "#ef94ad", "deep": "#b3154f", "soft": "#f9e2e9" },
-    "sage": { "tone": "#8dbb6f", "deep": "#2b6a24", "soft": "#e2efd8" },
-    "lilac": { "tone": "#b69cf0", "deep": "#6431c0", "soft": "#ece4fb" },
-    "ochre": { "tone": "#f0b452", "deep": "#b0420c", "soft": "#f9e8cb" }
+    "accent": { "tone": "#7ea4dc", "deep": "#2443b5", "soft": "#e1e9f7", "hatch": "#b4caeb" },
+    "rose": { "tone": "#ef94ad", "deep": "#b3154f", "soft": "#f9e2e9", "hatch": "#f4bfce" },
+    "sage": { "tone": "#8dbb6f", "deep": "#2b6a24", "soft": "#e2efd8", "hatch": "#bcd8a9" },
+    "lilac": { "tone": "#b69cf0", "deep": "#6431c0", "soft": "#ece4fb", "hatch": "#d4c4f6" },
+    "ochre": { "tone": "#f0b452", "deep": "#b0420c", "soft": "#f9e8cb", "hatch": "#f5d195" },
+    "teal": { "tone": "#6cbcb4", "deep": "#0f6b63", "soft": "#dcefec", "hatch": "#aed9d3" },
+    "slate": { "tone": "#9aa6b8", "deep": "#3d4b63", "soft": "#e5e8ee", "hatch": "#c6cdd8" }
   }
 }

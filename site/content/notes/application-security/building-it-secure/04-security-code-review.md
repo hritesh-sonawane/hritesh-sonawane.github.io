@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/application-security/foundations/02-threat-modeling-an-api', '/notes/application-security/untrusted-input/01-injection-and-parameterization', '/notes/application-security/authorization/01-broken-object-level-authorization']
 date = 2026-06-24
-lastmod = 2026-06-24
+lastmod = 2026-10-30
 verified = 2026-06-24
 +++
 
@@ -102,7 +102,7 @@ this object?" and refuse to approve until you can point at it. The lesson on
 [Broken object level authorization](/notes/application-security/authorization/01-broken-object-level-authorization/)
 shows why that line is so often absent.
 
-The dashed box is what the reviewer has to notice: a node that should exist
+The box on the dotted path is what the reviewer has to notice: a node that should exist
 between loading the object and returning it.
 
 ```mermaid {title="Missing authorization is a node that is not there"}
@@ -117,7 +117,6 @@ flowchart LR
   class R compute
   class X good
   class O warn
-  style X stroke-dasharray: 5 5
 ```
 
 ### Reviewing a diff by data flow
@@ -254,7 +253,7 @@ about wording instead of a fix.
 A finding is not done when the line is patched; follow it until the class is
 closed and a test guards it.
 
-```mermaid {title="The life of a finding"}
+```mermaid {title="A finding ends dismissed with a reason, or fixed with a regression test"}
 stateDiagram-v2
   [*] --> Reported: title, location, impact
   Reported --> Dismissed: false positive, reason recorded

@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/ai-security-engineering/threat-landscape/01-why-ai-security-is-different', '/notes/ai-security-engineering/threat-landscape/02-threat-modeling-ai-systems']
 date = 2026-04-15
-lastmod = 2026-04-15
+lastmod = 2026-10-30
 verified = 2026-04-15
 +++
 
@@ -249,7 +249,7 @@ attack was phrased.
 Each level is built on the one below it; skipping the baseline leaves the
 advanced controls standing on nothing.
 
-```mermaid {title="Maturity levels stack"}
+```mermaid {title="Each maturity level builds on the one below"}
 block-beta
   columns 1
   A["Advanced: isolate untrusted content, information-flow control, confidential computing"]

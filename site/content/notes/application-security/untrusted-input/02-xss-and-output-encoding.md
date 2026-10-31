@@ -6,7 +6,7 @@ weight = 2
 difficulty = 2
 prerequisites = ['/notes/application-security/untrusted-input/01-injection-and-parameterization']
 date = 2026-06-10
-lastmod = 2026-06-10
+lastmod = 2026-10-30
 verified = 2026-06-10
 +++
 
@@ -354,8 +354,7 @@ flowchart LR
   P -->|"TrustedHTML"| K["<b>Sink accepts</b>"]
   H -.-> X
   class C neutral
-  class X warn
-  class P,K good
+  class P,K,X good
 ```
 Trusted Types has been supported in Chromium-based browsers for several years,
 and other engines have been adding it; check current compatibility before

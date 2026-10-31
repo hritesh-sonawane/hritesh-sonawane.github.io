@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/cryptography/key-management/01-the-key-lifecycle', '/notes/cryptography/symmetric-cryptography/02-authenticated-encryption']
 date = 2026-08-29
-lastmod = 2026-08-29
+lastmod = 2026-10-30
 verified = 2026-08-29
 +++
 
@@ -31,6 +31,7 @@ on which all of that data depends.
 
 ```mermaid {title="Envelope encryption with a KMS"}
 sequenceDiagram
+  autonumber
   participant App as Application
   participant KMS as KMS (KEK inside HSM)
   participant DB as Storage

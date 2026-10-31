@@ -6,7 +6,7 @@ weight = 4
 difficulty = 4
 prerequisites = ['/notes/cryptography/public-key-cryptography/01-key-exchange', '/notes/cryptography/public-key-cryptography/03-certificates-and-pki', '/notes/cryptography/symmetric-cryptography/04-key-derivation']
 date = 2026-08-25
-lastmod = 2026-08-25
+lastmod = 2026-10-30
 verified = 2026-08-25
 +++
 
@@ -35,6 +35,7 @@ connection to the attacker.
 
 ```mermaid {title="A full TLS 1.3 handshake, with optional client certificate"}
 sequenceDiagram
+  autonumber
   participant C as Client
   participant S as Server
   C->>S: ClientHello: random, suites, key_share (X25519), SNI

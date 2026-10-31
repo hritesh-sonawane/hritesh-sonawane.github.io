@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/securing-each-stage/01-the-lifecycle-map', '/notes/ai-security-engineering/how-attacks-work/01-prompt-injection']
 date = 2026-04-21
-lastmod = 2026-04-21
+lastmod = 2026-10-30
 verified = 2026-04-21
 +++
 
@@ -25,7 +25,7 @@ number that must not rise.
 
 ## A picture
 
-```mermaid {title="CI for an AI application"}
+```mermaid {title="Every AI change passes CI and a release gate before it ships"}
 flowchart LR
   PR["<b>Pull request</b><br/><small>code, prompt, tool, policy,<br/>model version</small>"] --> C1
   subgraph CI["CI pipeline"]
@@ -45,9 +45,9 @@ flowchart LR
   class PR neutral
   class C1,C2 queue
   class C3,C4 compute
-  class GATE good
+  class GATE,BLOCK good
   class SIGN,CAN io
-  class BLOCK,INC warn
+  class INC warn
   class RT neutral
 ```
 
@@ -220,8 +220,7 @@ flowchart TB
   G2 -->|"no"| BLOCK
   G3 -->|"no"| BLOCK
   G4 -->|"no"| BLOCK
-  class SHIP good
-  class BLOCK warn
+  class SHIP,BLOCK good
 ```
 
 A model upgrade goes through the same gate. A newer model is usually more

@@ -1,14 +1,14 @@
 {{ define "main" }}
 {{- $course := partial "course.html" . }}
 {{- if $course }}
-{{- $lessons := partial "course-lessons.html" $course }}
+{{- $lessons := partialCached "course-lessons.html" $course $course.RelPermalink }}
 {{- $current := -1 }}
 {{- range $i, $entry := $lessons }}{{ if eq $entry.page.RelPermalink $.RelPermalink }}{{ $current = $i }}{{ end }}{{ end }}
 {{- $entry := dict }}{{ if ge $current 0 }}{{ $entry = index $lessons $current }}{{ end }}
 <div class="reader-layout">
   {{ partial "course-tree.html" . }}
-  <article class="course-content lesson" data-reading-article{{ if ge $current 0 }} data-lesson-page="{{ .RelPermalink }}"{{ end }}>
-    <div class="breadcrumbs"><a href="{{ with site.GetPage "/notes" }}{{ .RelPermalink }}{{ end }}">Notes</a><span aria-hidden="true">/</span><a href="{{ $course.RelPermalink }}">{{ $course.LinkTitle }}</a>{{ with $entry.module }}<span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">Module {{ .Weight }} · {{ .LinkTitle }}</a>{{ end }}</div>
+  <article class="course-content lesson" data-reading-article{{ if ge $current 0 }} data-lesson-page="{{ .RelPermalink }}" data-reading-minutes="{{ .ReadingTime }}"{{ end }}>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ with site.GetPage "/notes" }}{{ .RelPermalink }}{{ end }}">Notes</a><span aria-hidden="true">/</span><a href="{{ $course.RelPermalink }}">{{ $course.LinkTitle }}</a>{{ with $entry.module }}<span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">Module {{ .Weight }} · {{ .LinkTitle }}</a>{{ end }}</nav>
     <header class="lesson-header tone-block on-tone">
       <div class="block-top">{{ with $entry.number }}<span class="block-number" aria-hidden="true">{{ . }}</span>{{ end }}<p class="eyebrow">{{ with $entry.number }}Lesson {{ . }}{{ else }}Reference{{ end }}{{ with $entry.module }} / Module {{ .Weight }}{{ end }}</p></div>
       <h1>{{ .Title }}</h1>
@@ -41,7 +41,7 @@
       <p class="lesson-read" data-read-control hidden><button type="button" class="read-toggle" data-read-toggle>Mark as read</button><span class="visually-hidden" role="status" data-read-status></span></p>
       {{- end }}
     </header>
-    {{ if .Fragments.Headings }}<details class="mobile-contents"><summary>On this page <span aria-hidden="true">+</span></summary>{{ .TableOfContents | replaceRE ` id="TableOfContents"` "" | safeHTML }}</details>{{ end }}
+    {{ if and .Fragments.Headings (strings.Contains (string .TableOfContents) "<a ") }}<details class="mobile-contents"><summary>On this page <span aria-hidden="true">+</span></summary>{{ .TableOfContents | replaceRE `<nav id="TableOfContents">` `<nav aria-label="Page contents menu">` | safeHTML }}</details>{{ end }}
     <div class="prose">{{ .Content }}</div>
     {{- if ge $current 0 }}
     <nav class="lesson-pager" aria-label="Lesson navigation">
@@ -57,7 +57,7 @@
     <p class="pager-hint" data-key-hint hidden><kbd>←</kbd> <kbd>→</kbd> previous and next lesson</p>
     {{- end }}
   </article>
-  {{ if .Fragments.Headings }}<aside class="page-contents" aria-label="On this page"><p class="eyebrow">On this page</p>{{ .TableOfContents }}<p class="reading-label">Reading position <span data-reading-label>0%</span></p></aside>{{ end }}
+  {{ partial "page-contents.html" . }}
 </div>
 {{- else }}
 <article class="course-content" data-reading-article>
