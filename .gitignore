@@ -1,6 +1,7 @@
 .DS_Store
 /.tools/
 /build/
+/docs/
 /site/.hugo_build.lock
 /site/resources/
 __pycache__/

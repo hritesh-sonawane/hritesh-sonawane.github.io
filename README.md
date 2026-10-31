@@ -69,6 +69,3 @@ python3 -m http.server 8000
 
 Open `http://localhost:8000/`. Local Hugo builds and previews do not modify these
 legacy files. The GitHub Pages workflow publishes the generated Hugo site.
-
-See [the rebuild plan](docs/site-rebuild-plan.md) for scope and the review sequence.
-Each change is tested locally and reviewed before an approved commit and push.
