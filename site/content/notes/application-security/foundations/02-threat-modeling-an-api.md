@@ -6,7 +6,7 @@ weight = 2
 difficulty = 2
 prerequisites = ['/notes/application-security/foundations/01-the-request-is-a-trust-boundary']
 date = 2026-05-17
-lastmod = 2026-05-17
+lastmod = 2026-10-30
 verified = 2026-05-17
 +++
 
@@ -52,7 +52,7 @@ flowchart LR
   W -->|refund call| PSP
   API --> DB
   API --> AU
-  class BR,PSP warn
+  class BR warn
   class API,W compute
   class DB,AU memory
 ```

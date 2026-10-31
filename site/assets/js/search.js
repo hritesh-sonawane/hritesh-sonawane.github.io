@@ -404,6 +404,17 @@
     if (scroll) option.scrollIntoView({ block: "nearest" });
   }
 
+  // A result on the current page only moves to a heading; the page does not reload.
+  // Send focus there when the dialog closes instead of back to the Search button.
+  function focusSamePageTarget(link) {
+    if (link.origin !== window.location.origin || link.pathname !== window.location.pathname || !link.hash) return false;
+    var target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+    if (!target) return false;
+    if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+    opener = target;
+    return true;
+  }
+
   function openActive(event) {
     var option = list.children[active];
     var link = option && option.querySelector("a");
@@ -412,6 +423,7 @@
       window.open(link.href, "_blank", "noopener");
       return;
     }
+    focusSamePageTarget(link);
     close();
     window.location.assign(link.href);
   }
@@ -441,7 +453,10 @@
   // Same-page anchor links do not unload the page, so close the dialog first.
   list.addEventListener("click", function (event) {
     var link = event.target.closest("a");
-    if (link && !event.metaKey && !event.ctrlKey && !event.shiftKey && event.button === 0) close();
+    if (link && !event.metaKey && !event.ctrlKey && !event.shiftKey && event.button === 0) {
+      focusSamePageTarget(link);
+      close();
+    }
   });
 
   function isEditable(target) {

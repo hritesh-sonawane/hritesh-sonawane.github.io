@@ -6,7 +6,7 @@ weight = 3
 difficulty = 4
 prerequisites = ['/notes/ai-security-engineering/how-attacks-work/01-prompt-injection', '/notes/ai-security-engineering/securing-agents/01-agent-threats']
 date = 2026-05-03
-lastmod = 2026-05-03
+lastmod = 2026-10-30
 verified = 2026-05-03
 +++
 
@@ -119,6 +119,8 @@ stateDiagram-v2
   Held --> Tainted: user approves or refuses
   Tainted --> [*]: session ends
   note right of Tainted: nothing returns to Clean
+  class Clean good
+  class Tainted warn
 ```
 
 The rule is coarse, and that is its virtue: it can be explained in a sentence

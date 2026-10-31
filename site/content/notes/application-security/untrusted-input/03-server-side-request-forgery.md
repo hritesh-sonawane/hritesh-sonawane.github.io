@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/application-security/foundations/01-the-request-is-a-trust-boundary', '/notes/application-security/untrusted-input/01-injection-and-parameterization']
 date = 2026-06-12
-lastmod = 2026-06-12
+lastmod = 2026-10-30
 verified = 2026-06-12
 +++
 
@@ -311,8 +311,7 @@ flowchart LR
   H --> R
   class IP,N neutral
   class S,H compute
-  class C,R good
-  class X warn
+  class C,R,X good
 ```
 
 **5. Disable automatic redirects, or re-validate each hop.** Turn off

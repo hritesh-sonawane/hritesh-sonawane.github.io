@@ -1,5 +1,7 @@
 /* Reading marks, stored only in this browser (localStorage, one key per course; no network).
-   A lesson counts as read when its pager scrolls into view or the reader presses "Mark as read".
+   A lesson counts as read when the reader presses "Mark as read", or when its pager is in view
+   after the page has been visible for a quarter of its reading time (at least 20 seconds), so
+   jumping to the end or skimming past does not count.
    A mark records that a page was reached; it says nothing about understanding. */
 (() => {
   const course = document.body.dataset.course;
@@ -120,8 +122,32 @@
     control.hidden = false;
     const pager = document.querySelector(".lesson-pager");
     if (pager && "IntersectionObserver" in window) {
+      const minutes = Number(article.dataset.readingMinutes) || 1;
+      const needed = Math.max(20, minutes * 15) * 1000; // a quarter of the reading time, in ms
+      let visibleFor = 0;
+      let since = document.visibilityState === "visible" ? performance.now() : null;
+      let atEnd = false;
+      let timer;
+      const elapsed = () => visibleFor + (since === null ? 0 : performance.now() - since);
+      const check = () => {
+        clearTimeout(timer);
+        if (!atEnd || undone || read.has(path)) return;
+        const left = needed - elapsed();
+        if (left <= 0) setRead(true, false);
+        else if (since !== null) timer = setTimeout(check, left + 50);
+      };
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          if (since === null) since = performance.now();
+        } else if (since !== null) {
+          visibleFor += performance.now() - since;
+          since = null;
+        }
+        check();
+      });
       new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting) && !undone && !read.has(path)) setRead(true, false);
+        atEnd = entries[entries.length - 1].isIntersecting;
+        check();
       }).observe(pager);
     }
   }

@@ -6,7 +6,7 @@ weight = 2
 difficulty = 2
 prerequisites = ['/notes/cryptography/foundations/01-start-from-the-property']
 date = 2026-08-05
-lastmod = 2026-08-05
+lastmod = 2026-10-30
 verified = 2026-08-05
 +++
 
@@ -179,6 +179,8 @@ stateDiagram-v2
     getrandom waits here.
     Old /dev/urandom did not.
   end note
+  class Seeded good
+  class Duplicated warn
 ```
 
 The fix for images is to move key generation from build time to first boot, and

@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/systems-design/failure-modes/01-partial-failure-and-timeouts', '/notes/systems-design/thinking-in-invariants/03-back-of-the-envelope-capacity']
 date = 2026-09-26
-lastmod = 2026-09-26
+lastmod = 2026-10-30
 verified = 2026-09-26
 +++
 
@@ -112,6 +112,8 @@ stateDiagram-v2
   Vulnerable --> Metastable: trigger, a spike or brief slowdown
   Metastable --> Metastable: retries and stale backlog keep load high
   Metastable --> Stable: shed load, stop retries, drain the queue
+  class Stable good
+  class Metastable warn
 ```
 
 ### Bounded queues and load shedding

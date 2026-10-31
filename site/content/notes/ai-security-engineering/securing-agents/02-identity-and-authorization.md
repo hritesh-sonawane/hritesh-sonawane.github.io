@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/threat-landscape/01-why-ai-security-is-different', '/notes/ai-security-engineering/securing-agents/01-agent-threats']
 date = 2026-05-01
-lastmod = 2026-05-01
+lastmod = 2026-10-30
 verified = 2026-05-01
 +++
 
@@ -30,6 +30,7 @@ to agent to sub-agent to tool**, and the model never holds the credential.
 
 ```mermaid {title="Delegation through token exchange"}
 sequenceDiagram
+  autonumber
   participant U as User
   participant IdP as Identity provider
   participant A as Agent runtime
@@ -184,8 +185,7 @@ flowchart LR
   U --> T1 --> A --> T2 --> S --> T3
   A --> WR --> N
   S -.-> X
-  class T2,T3,N good
-  class X warn
+  class T2,T3,N,X good
 ```
 
 **4. The resource enforces.** The business system applies the *user's*
@@ -327,10 +327,9 @@ flowchart LR
   PE --> AL
   PE --> AP
   PE --> DN
-  class PE good
+  class PE,DN good
   class AL io
   class AP neutral
-  class DN warn
 ```
 
 ### An inventory of non-human identities
@@ -514,8 +513,7 @@ flowchart LR
   EXP -->|"no: ten minutes later"| DN
   AUD -->|"no: payments server"| DN
   SC -->|"no: ticket 9000"| DN
-  class OK good
-  class DN warn
+  class OK,DN good
 ```
 
 ## Where it breaks

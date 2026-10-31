@@ -5,7 +5,7 @@ question = 'What does a running workload trust, and what does an attacker inheri
 weight = 1
 difficulty = 1
 date = 2026-06-26
-lastmod = 2026-06-26
+lastmod = 2026-10-30
 verified = 2026-06-26
 +++
 
@@ -204,7 +204,7 @@ valuable step.
 The authorizer answers one question per request; the dashed arrow leads to what
 it cannot touch.
 
-```mermaid {title="The Node authorizer limits what a kubelet can ask for, not what its node already holds"}
+```mermaid {title="The Node authorizer limits what a kubelet asks for, not what its node already holds"}
 flowchart LR
   K("kubelet on node A")
   API("API server")
@@ -240,7 +240,7 @@ give pods their own identity instead of the node's.
 Compare the host's request with the container's: the same endpoint, but only
 one of them gets a reply.
 
-```mermaid {title="IMDSv2: a PUT for a session token, with a hop limit that stops at the container bridge"}
+```mermaid {title="IMDSv2: a PUT for a token, with a hop limit that stops at the container bridge"}
 sequenceDiagram
   autonumber
   participant H as Process on the host

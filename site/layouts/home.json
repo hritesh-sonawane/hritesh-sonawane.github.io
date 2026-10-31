@@ -12,7 +12,7 @@
 {{- $numbered := dict -}}
 {{- range site.Pages -}}
   {{- if and .IsSection .Params.course -}}
-    {{- range partial "course-lessons.html" . -}}
+    {{- range partialCached "course-lessons.html" . .RelPermalink -}}
       {{- $numbered = merge $numbered (dict .page.RelPermalink (dict "number" .number "module" .module)) -}}
     {{- end -}}
   {{- end -}}

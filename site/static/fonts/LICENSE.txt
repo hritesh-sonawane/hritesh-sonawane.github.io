@@ -1,0 +1,11 @@
+Excalifont
+
+Files: Excalifont-latin.woff2, Excalifont-latin-ext.woff2, Excalifont-greek.woff2,
+Excalifont-marks.woff2 (unmodified subsets of Excalifont Regular, version 1.000).
+
+Copyright (c) 2024 by Excalidraw. All rights reserved.
+
+Licensed under the SIL Open Font License, Version 1.1.
+Licence text: https://openfontlicense.org
+
+Upstream project: Excalidraw (https://github.com/excalidraw/excalidraw).

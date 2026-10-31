@@ -87,13 +87,24 @@ The header shows Published, with Updated only when it is later.
   `class A,B warn`: `neutral`, `compute`, `memory`, `queue`, `io`, `warn`
   (attacker-controlled or dangerous), `good` (the control that holds).
 - The palette lives in `site/data/diagrams.json`, shared by the render hook and
-  JavaScript renderer. Ordinary nodes follow the course tint; `neutral` is cream,
-  `warn` is rose with a dashed outline, and `good` is sage with a solid outline.
-  Use labels as well as color to explain the difference. Do not add local
-  `classDef` colors or hard-coded node/edge colors. Sequence highlight colors
-  use the same soft tints: rose `rgb(249, 226, 233)` for danger, sage
-  `rgb(226, 239, 216)` for a control, and neutral `rgb(243, 241, 234)` for context.
-- Flowchart connectors are straight, typography is 15px system sans-serif, and
+  JavaScript renderer. Ordinary nodes follow the course tint (its `hatch`
+  strength); `neutral` is cream, `warn` is full rose with a heavier dashed
+  outline, and `good` is full sage with a heavier solid outline, so they stay
+  distinct from rose and sage course nodes. Use labels as well as color to
+  explain the difference. Do not add local `classDef` colors or hard-coded
+  node/edge colors. A course tone missing from the palette falls back to accent.
+  Sequence highlight colors use the same soft tints: rose `rgb(249, 226, 233)`
+  for danger, sage `rgb(226, 239, 216)` for a control, and neutral
+  `rgb(243, 241, 234)` for context.
+- Every diagram has a pencil-sketch look. Flowchart, state, ER, and mindmap use
+  Mermaid's `look: "handDrawn"` with a fixed seed (`sketch.seed` in
+  `diagrams.json`), so strokes are identical on every load and in the expanded
+  view; fills are drawn as hatching. Other types (sequence, charts, quadrant,
+  block, timeline, packet, gantt, gitGraph, sankey) keep their classic layout
+  with a light pencil filter on lines and shapes, never on text.
+- All diagram text uses the vendored Excalifont (`site/static/fonts/`, SIL OFL
+  1.1) at 15px with a sans-serif fallback. It runs about 8% wider than the
+  system font, so keep labels short. Flowchart connectors are straight, and
   every diagram stays on a light canvas in both site themes. The inline and
   expanded views share one configuration. Charts with multiple categories use
   the course color first, followed by the other subject colors.

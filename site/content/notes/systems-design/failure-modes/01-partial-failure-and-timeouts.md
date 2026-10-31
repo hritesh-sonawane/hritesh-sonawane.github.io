@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises']
 date = 2026-09-20
-lastmod = 2026-09-20
+lastmod = 2026-10-30
 verified = 2026-09-20
 +++
 
@@ -32,6 +32,7 @@ pay written down.
 
 ```mermaid {title="Four failures that look the same to the caller"}
 sequenceDiagram
+  autonumber
   participant C as Client
   participant S as Server
   Note over C,S: 1. request lost

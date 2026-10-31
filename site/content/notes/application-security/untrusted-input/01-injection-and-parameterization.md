@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/application-security/foundations/01-the-request-is-a-trust-boundary', '/notes/application-security/foundations/03-the-vulnerability-classes-that-matter']
 date = 2026-06-08
-lastmod = 2026-06-08
+lastmod = 2026-10-30
 verified = 2026-06-08
 +++
 
@@ -188,8 +188,7 @@ flowchart TB
   K -->|"yes"| C["<b>Server-chosen SQL text</b>"]
   K -->|"no"| R["<b>Reject the request</b>"]
   class Q,K neutral
-  class V,M,L,E,C good
-  class R warn
+  class V,M,L,E,C,R good
 ```
 
 Quoting identifiers (`"column"` in SQL) is a weaker substitute for the

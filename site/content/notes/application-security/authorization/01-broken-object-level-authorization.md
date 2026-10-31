@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/application-security/foundations/01-the-request-is-a-trust-boundary', '/notes/application-security/foundations/03-the-vulnerability-classes-that-matter']
 date = 2026-05-31
-lastmod = 2026-05-31
+lastmod = 2026-10-30
 verified = 2026-05-31
 +++
 
@@ -36,6 +36,7 @@ expected to fail.
 
 ```mermaid {title="The same request against a vulnerable and a fixed handler"}
 sequenceDiagram
+  autonumber
   participant B as Bob (logged in)
   participant API as Invoice API
   participant DB as Database

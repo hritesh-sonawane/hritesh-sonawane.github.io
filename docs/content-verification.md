@@ -58,3 +58,20 @@ Agents could not fetch external pages. Each item below was written from memory o
 - sd 3.c: prose said SI allows read skew; corrected to match table (SI prevents read skew, allows write skew)
 ## crypto/public-key
 - LE ending OCSP 2025 + URL; CA/B BR URL, SC-063, SC-081 (47 days by 2029); ECH cited as draft
+
+# Wave 1 additions (2026-10-30)
+
+No external page could be fetched. All links are canonical but unverified. Check first:
+
+## inference-engineering
+- vLLM "v0.30 line" as of Oct 2026; V1 recompute-only preemption; SHA-256 default prefix hash; priority ordering; `--enable-eplb`, `--all2all-backend`, `cache_salt`; NIXL TP resharding; docs paths (optimization, engine_args, prefix_caching, spec_decode, metrics, sleep_mode, disagg_prefill)
+- TGI maintenance mode; TensorRT-LLM PyTorch default workflow (2025); CVE-2025-25183
+- DeepSeek-V3 EPLB cadence and deployment units; model config values from memory; arXiv 2409.20002
+## ai-system-design
+- Provider prices/discounts "as of 2025/Oct 2026" (cache reads 10%, batch 50%/24h, 1,024-token minimum); Anthropic multi-agent figures (4x/15x/90.2%/80%); contextual retrieval figures; Temporal history limits; Stripe 24h key retention; Llama 3 interruption/MFU figures; Faiss nlist rule
+## systems-design (scale, data, observability)
+- Envoy defaults "as of Oct 2026"; HAProxy hash-balance-factor; PEP 779 status; etcd defaults; K8s 5,000 nodes/150k pods; Kafka 4.0 ZooKeeper removal; OTel 160-bucket default; Alertmanager group_wait; DCGM fields and Xid meanings
+## ai-security-engineering/frontier-model-security, infrastructure-security/securing-gpu-clusters
+- RAND SL/OC details and 38 vectors; ASL-3 report contents; RSP/FSF reassessment triggers and version dates; Carlini 2024 cost figures; H100 confidential-mode details; MPS fault behavior; NCCL lacks auth/encryption; Lustre nodemaps; DRA stable
+## fonts
+- Excalifont OFL licence asserted, full OFL text not vendored; compare files with Excalidraw upstream

@@ -3,6 +3,7 @@ title = 'AI security engineering'
 description = 'How AI systems are attacked and how they are defended, from the first threat model to a running agent.'
 weight = 1
 tone = 'accent'
+group = 'security'
 status = 'Course'
 course = true
 +++
@@ -38,7 +39,6 @@ flowchart LR
   class DA,MO memory
   class B queue
   class DE compute
-  class R,A warn
   class O io
 ```
 

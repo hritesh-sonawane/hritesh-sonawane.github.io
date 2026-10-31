@@ -1,0 +1,6 @@
+{{- /* Desktop "On this page" panel. Rendered only when the table of contents has entries.
+       The reading-position label stays hidden until reading.js can keep it current. */ -}}
+{{- $toc := .TableOfContents -}}
+{{- if and .Fragments.Headings (strings.Contains (string $toc) "<a ") -}}
+<aside class="page-contents" aria-label="On this page"><p class="eyebrow">On this page</p>{{ $toc | replaceRE `<nav id="TableOfContents">` `<nav id="TableOfContents" aria-label="Page contents">` | safeHTML }}<p class="reading-label" hidden>Reading position <span data-reading-label>0%</span></p></aside>
+{{- end -}}

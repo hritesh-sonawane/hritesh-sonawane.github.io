@@ -1,8 +1,12 @@
-{{- /* Given a course root, return its lessons in reading order with computed numbers (1.a, 1.b, …). */ -}}
+{{- /* Given a course root, return its lessons in reading order with computed numbers (1.a, 1.b, …).
+       Call with partialCached and the course RelPermalink as the variant key. */ -}}
 {{- $letters := split "abcdefghijklmnopqrstuvwxyz" "" -}}
 {{- $lessons := slice -}}
 {{- $previous := false -}}
 {{- range $module := .Sections.ByWeight -}}
+  {{- if gt (len $module.RegularPages) (len $letters) -}}
+    {{- errorf "%s: module %q has %d lessons; lesson letters run out after %d (a … z)" $module.File.Path $module.LinkTitle (len $module.RegularPages) (len $letters) -}}
+  {{- end -}}
   {{- range $i, $lesson := $module.RegularPages.ByWeight -}}
     {{- if $lesson.Date.IsZero -}}
       {{- errorf "%s: a lesson needs a publication date" $lesson.File.Path -}}

@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/cryptography/foundations/01-start-from-the-property', '/notes/cryptography/foundations/02-randomness-and-entropy']
 date = 2026-08-11
-lastmod = 2026-08-11
+lastmod = 2026-10-30
 verified = 2026-08-11
 +++
 
@@ -32,12 +32,18 @@ CBC, or CTR as unfinished.
 
 ## A picture
 
-```mermaid {title="Three ways to use the same block cipher"}
+```mermaid {title="ECB: the same block in gives the same block out"}
 flowchart LR
   subgraph ECB["ECB: same block in, same block out"]
     P1["P1"] --> E1["E_k"] --> C1["C1"]
     P2["P2 = P1"] --> E2["E_k"] --> C2["C2 = C1"]
   end
+  class C2 warn
+  class E1,E2 compute
+```
+
+```mermaid {title="CBC chains the previous ciphertext, CTR encrypts a counter"}
+flowchart LR
   subgraph CBC["CBC: chain the previous ciphertext"]
     IV["random IV"] --> X1(("XOR"))
     Q1["P1"] --> X1 --> F1["E_k"] --> D1["C1"]
@@ -50,8 +56,7 @@ flowchart LR
     N2["nonce, 2"] --> G2["E_k"] --> Y2(("XOR")) --> R2["C2"]
     S2["P2"] --> Y2
   end
-  class C2 warn
-  class E1,E2,F1,F2,G1,G2 compute
+  class F1,F2,G1,G2 compute
   class IV,N1,N2 memory
   class D2,R2 good
 ```

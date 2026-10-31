@@ -3,73 +3,87 @@
 {{- $course := partial "course.html" . }}
 {{- if eq .RelPermalink $notes.RelPermalink }}
 <section class="library-hero">
-  <div><p class="eyebrow">The security library / 01—05</p><h1>Understand the system.<br><em>Secure the boundary.</em></h1><div class="library-intro">{{ .Content }}</div></div>
-  <div class="library-stamp" aria-hidden="true"><span>THINK<br>BUILD<br>BREAK<br>EXPLAIN</span><span>↗</span></div>
+  <div><h1>{{ .Title }}</h1><div class="library-intro">{{ .Content }}</div></div>
 </section>
-<section class="library-index" aria-labelledby="subjects-title"><div class="section-heading"><h2 id="subjects-title">Choose a subject</h2><p>Follow a path. Go deep.</p></div>{{ partial "subject-list.html" . }}</section>
-<section class="start-panel on-tone" data-tone="accent" aria-labelledby="start-title"><p class="eyebrow">A good place to begin</p><h2 id="start-title">Draw the system.<br>Then draw the trust.</h2><p>Start with AI security engineering: why it is different, how attacks work, and which defenses hold when the model is fooled.</p><a class="button button-dark" href="{{ with site.GetPage "/notes/ai-security-engineering" }}{{ .RelPermalink }}{{ end }}">Open the course <span aria-hidden="true">↗</span></a></section>
+<section class="library-index" aria-labelledby="subjects-title"><div class="section-heading"><h2 id="subjects-title">Courses</h2></div>{{ partial "subject-list.html" . }}</section>
+<section class="start-panel on-tone" data-tone="accent" aria-labelledby="start-title"><h2 id="start-title">Where to start</h2><p>New here? Start with AI security engineering.</p><a class="button button-dark" href="{{ with site.GetPage "/notes/ai-security-engineering" }}{{ .RelPermalink }}{{ end }}">Open the course <span aria-hidden="true">↗</span></a></section>
 {{- else if $course }}
-{{- $lessons := partial "course-lessons.html" $course }}
-{{- $letters := split "abcdefghijklmnopqrstuvwxyz" "" }}
+{{- $lessons := partialCached "course-lessons.html" $course $course.RelPermalink }}
+{{- $numbers := dict }}{{ range $lessons }}{{ $numbers = merge $numbers (dict .page.RelPermalink .number) }}{{ end }}
 <div class="reader-layout">
   {{ partial "course-tree.html" . }}
   {{- if eq .RelPermalink $course.RelPermalink }}
   {{- $minutes := 0 }}{{ range $lessons }}{{ $minutes = add $minutes .page.ReadingTime }}{{ end }}
   <article class="course-content" data-reading-article>
-    <div class="breadcrumbs"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></div>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></nav>
     <header class="course-header tone-block on-tone">
       <div class="block-top"><span class="block-number" aria-hidden="true">{{ printf "%02d" .Weight }}</span><p class="eyebrow">Subject {{ printf "%02d" .Weight }} / {{ .Params.status }}</p></div>
       <h1>{{ .Title }}</h1>
-      <p class="course-description">{{ .Description }}</p>
-      <div class="course-meta"><span>{{ len .Sections }} modules</span><span>{{ len $lessons }} lessons</span><span>≈ {{ math.Round (div (float $minutes) 60) }} h reading</span></div>
+      {{ with .Description }}<p class="course-description">{{ . }}</p>{{ end }}
+      {{- if $lessons }}
+      <div class="course-meta"><span>{{ len .Sections }} {{ cond (eq (len .Sections) 1) "module" "modules" }}</span><span>{{ len $lessons }} {{ cond (eq (len $lessons) 1) "lesson" "lessons" }}</span><span>{{ if lt $minutes 60 }}{{ $minutes }} min{{ else }}≈ {{ math.Round (div (float $minutes) 60) }} h{{ end }} reading</span></div>
       <div class="course-progress" data-course-progress hidden>
         <p class="progress-count"><span data-progress-count>0</span> of {{ len $lessons }} read</p>
         <span class="progress-track" aria-hidden="true"><span data-progress-bar></span></span>
         <button type="button" class="progress-reset" data-progress-reset hidden>Reset progress</button>
       </div>
+      {{- end }}
       {{ with index $lessons 0 }}<a class="button button-dark course-start" href="{{ .page.RelPermalink }}" data-progress-continue>Start with lesson {{ .number }} <span aria-hidden="true">→</span></a>{{ end }}
     </header>
     <div class="prose">{{ .Content }}</div>
+    {{- with .Sections }}
     <section class="module-index" aria-labelledby="modules-title">
       <h2 id="modules-title" class="index-title">The modules</h2>
-      {{- range $module := .Sections.ByWeight }}
+      {{- range $module := .ByWeight }}
       <section class="module-card" aria-labelledby="module-{{ $module.Weight }}">
         <header><span class="module-number tone-{{ $course.Params.tone }}">{{ $module.Weight }}</span><div><h3 id="module-{{ $module.Weight }}"><a href="{{ $module.RelPermalink }}">{{ $module.LinkTitle }}</a></h3>{{ with $module.Description }}<p>{{ . }}</p>{{ end }}</div></header>
+        {{- with $module.RegularPages }}
         <ol class="lesson-index">
-          {{- range $i, $lesson := $module.RegularPages.ByWeight }}
-          <li><a href="{{ $lesson.RelPermalink }}" data-lesson="{{ $lesson.RelPermalink }}" data-number="{{ $module.Weight }}.{{ index $letters $i }}"><span class="lesson-number">{{ $module.Weight }}.{{ index $letters $i }}</span><span class="lesson-title">{{ $lesson.LinkTitle }}</span><span class="lesson-minutes">{{ $lesson.ReadingTime }} min</span></a></li>
+          {{- range $lesson := .ByWeight }}
+          {{- $number := index $numbers $lesson.RelPermalink }}
+          <li><a href="{{ $lesson.RelPermalink }}" data-lesson="{{ $lesson.RelPermalink }}" data-number="{{ $number }}"><span class="lesson-number">{{ $number }}</span><span class="lesson-title">{{ $lesson.LinkTitle }}</span><span class="lesson-minutes">{{ $lesson.ReadingTime }} min</span></a></li>
           {{- end }}
         </ol>
+        {{- end }}
       </section>
       {{- end }}
     </section>
+    {{- end }}
     <a class="back-link" href="{{ $notes.RelPermalink }}">← Back to the library</a>
   </article>
-  <aside class="page-contents" aria-label="On this page"><p class="eyebrow">On this page</p>{{ .TableOfContents }}<p class="reading-label">Reading position <span data-reading-label>0%</span></p></aside>
+  {{ partial "page-contents.html" . }}
   {{- else }}
   {{- $modules := $course.Sections.ByWeight }}
   {{- $minutes := 0 }}{{ range .RegularPages }}{{ $minutes = add $minutes .ReadingTime }}{{ end }}
   <article class="course-content" data-reading-article>
-    <div class="breadcrumbs"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><a href="{{ $course.RelPermalink }}">{{ $course.LinkTitle }}</a><span aria-hidden="true">/</span><span>Module {{ .Weight }}</span></div>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><a href="{{ $course.RelPermalink }}">{{ $course.LinkTitle }}</a><span aria-hidden="true">/</span><span>Module {{ .Weight }}</span></nav>
     <header class="course-header tone-block on-tone">
       <div class="block-top"><span class="block-number" aria-hidden="true">{{ .Weight }}</span><p class="eyebrow">Module {{ .Weight }} of {{ len $modules }}</p></div>
       <h1>{{ .Title }}</h1>
-      <p class="course-description">{{ .Description }}</p>
-      <div class="course-meta"><span>{{ len .RegularPages }} lessons</span><span>{{ $minutes }} min reading</span></div>
+      {{ with .Description }}<p class="course-description">{{ . }}</p>{{ end }}
+      {{- with .RegularPages }}
+      <div class="course-meta"><span>{{ len . }} {{ cond (eq (len .) 1) "lesson" "lessons" }}</span><span>{{ $minutes }} min reading</span></div>
+      {{- end }}
     </header>
     <div class="prose">{{ .Content }}</div>
+    {{- with .RegularPages }}
     <h2 id="lessons" class="index-title">Lessons</h2>
     <ol class="lesson-index lesson-index-detailed">
-      {{- range $i, $lesson := .RegularPages.ByWeight }}
-      <li><a href="{{ $lesson.RelPermalink }}" data-lesson="{{ $lesson.RelPermalink }}"><span class="lesson-number">{{ $.Weight }}.{{ index $letters $i }}</span><span class="lesson-title">{{ $lesson.LinkTitle }}{{ with $lesson.Params.question }}<small>{{ . }}</small>{{ end }}</span><span class="lesson-minutes">{{ $lesson.ReadingTime }} min</span></a></li>
+      {{- range $lesson := .ByWeight }}
+      <li><a href="{{ $lesson.RelPermalink }}" data-lesson="{{ $lesson.RelPermalink }}"><span class="lesson-number">{{ index $numbers $lesson.RelPermalink }}</span><span class="lesson-title">{{ $lesson.LinkTitle }}{{ with $lesson.Params.question }}<small>{{ . }}</small>{{ end }}</span><span class="lesson-minutes">{{ $lesson.ReadingTime }} min</span></a></li>
       {{- end }}
     </ol>
+    {{- end }}
+    {{- /* Neighbours by position in reading order (Pages.Prev/Next run the other way). */}}
+    {{- $at := -1 }}{{ range $i, $m := $modules }}{{ if eq $m.RelPermalink $.RelPermalink }}{{ $at = $i }}{{ end }}{{ end }}
+    {{- if gt (len $modules) 1 }}
     <nav class="lesson-pager" aria-label="Module navigation">
-      {{- with $modules.Prev . }}<a class="pager-prev" href="{{ .RelPermalink }}" rel="prev" data-key-nav="prev"><span class="eyebrow">← Module {{ .Weight }}</span><span>{{ .LinkTitle }}</span></a>{{ else }}<span></span>{{ end }}
-      {{- with $modules.Next . }}<a class="pager-next" href="{{ .RelPermalink }}" rel="next" data-key-nav="next"><span class="eyebrow">Module {{ .Weight }} →</span><span>{{ .LinkTitle }}</span></a>{{ end }}
+      {{- if gt $at 0 }}{{ with index $modules (sub $at 1) }}<a class="pager-prev" href="{{ .RelPermalink }}" rel="prev" data-key-nav="prev"><span class="eyebrow">← Module {{ .Weight }}</span><span>{{ .LinkTitle }}</span></a>{{ end }}{{ else }}<span></span>{{ end }}
+      {{- if and (ge $at 0) (lt (add $at 1) (len $modules)) }}{{ with index $modules (add $at 1) }}<a class="pager-next" href="{{ .RelPermalink }}" rel="next" data-key-nav="next"><span class="eyebrow">Module {{ .Weight }} →</span><span>{{ .LinkTitle }}</span></a>{{ end }}{{ end }}
     </nav>
+    {{- end }}
   </article>
-  {{ if .Fragments.Headings }}<aside class="page-contents" aria-label="On this page"><p class="eyebrow">On this page</p>{{ .TableOfContents }}<p class="reading-label">Reading position <span data-reading-label>0%</span></p></aside>{{ end }}
+  {{ partial "page-contents.html" . }}
   {{- end }}
 </div>
 {{- else }}
@@ -78,7 +92,7 @@
     <nav aria-label="Subject navigation">{{ range $notes.Sections.ByWeight }}<a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}><span class="subject-dot tone-{{ .Params.tone }}" aria-hidden="true"></span>{{ .LinkTitle }}</a>{{ end }}</nav>
   </aside>
   <article class="course-content" data-reading-article>
-    <div class="breadcrumbs"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></div>
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ $notes.RelPermalink }}">Notes</a><span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></nav>
     <header class="course-header tone-block on-tone"{{ with .Params.tone }} data-tone="{{ . }}"{{ end }}><div class="block-top"><span class="block-number" aria-hidden="true">{{ printf "%02d" .Weight }}</span><p class="eyebrow">Subject {{ printf "%02d" .Weight }} / {{ .Params.status }}</p></div><h1>{{ .Title }}</h1><p class="course-description">{{ .Description }}</p></header>
     <div class="prose">{{ .Content }}</div>
     {{ with .RegularPages }}<ul class="lesson-list">{{ range .ByWeight }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}</ul>{{ end }}

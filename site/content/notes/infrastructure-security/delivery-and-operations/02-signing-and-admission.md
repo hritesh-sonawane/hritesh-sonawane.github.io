@@ -6,7 +6,7 @@ weight = 2
 difficulty = 3
 prerequisites = ['/notes/infrastructure-security/delivery-and-operations/01-ci-cd-and-build-provenance', '/notes/infrastructure-security/isolation/02-the-kubernetes-security-model']
 date = 2026-07-28
-lastmod = 2026-07-28
+lastmod = 2026-10-30
 verified = 2026-07-28
 +++
 
@@ -32,6 +32,7 @@ tag alone**.
 
 ```mermaid {title="Keyless signing in CI, verification at admission"}
 sequenceDiagram
+  autonumber
   participant CI as CI job
   participant IdP as CI OIDC issuer
   participant F as Fulcio

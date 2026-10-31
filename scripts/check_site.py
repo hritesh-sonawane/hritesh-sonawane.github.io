@@ -1,8 +1,16 @@
 """Check generated HTML without network access or third-party Python packages."""
 
+import json
 import re
+from collections import Counter
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
+
+
+# Attributes whose value names one or more element IDs on the same page.
+ID_REFERENCES = ("aria-labelledby", "aria-describedby", "aria-controls", "for")
+# Go's fmt marks a bad verb or argument as %!verb(...) or %!(EXTRA ...); it leaks out of templates silently.
+TEMPLATE_LEAK = re.compile(r"%!\w?\(")
 
 
 class Page(HTMLParser):
@@ -10,6 +18,8 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.links = []
         self.ids = set()
+        self.id_counts = Counter()
+        self.references = []
         self.canonical = []
         self.diagrams = []
         self.diagram_source = None
@@ -19,6 +29,12 @@ class Page(HTMLParser):
         attrs = dict(attributes)
         if "id" in attrs:
             self.ids.add(attrs["id"])
+            self.id_counts[attrs["id"]] += 1
+        for name in ID_REFERENCES:
+            if name == "for" and tag != "label":
+                continue
+            for target in (attrs.get(name) or "").split():
+                self.references.append((tag, name, target))
         for name in ("href", "src"):
             if attrs.get(name):
                 self.links.append(attrs[name])
@@ -51,6 +67,12 @@ def check_site(destination, base_url, draft_routes):
             route = ""
         if relative != "404.html" and page.canonical != [base_url + route]:
             errors.append(f"{relative}: incorrect or missing canonical URL")
+        for name, count in sorted(page.id_counts.items()):
+            if count > 1:
+                errors.append(f"{relative}: duplicate id {name!r} ({count} elements)")
+        for tag, name, target in page.references:
+            if target not in page.ids:
+                errors.append(f"{relative}: <{tag} {name}> names a missing id: {target!r}")
         for number, source in enumerate(page.diagrams, 1):
             if re.search(r"(?m)^\s*architecture-beta\b|@\{[^}]*\bicon\s*:", source):
                 errors.append(f"{relative}: diagram {number} uses icons or architecture-beta; use native Mermaid shapes")
@@ -73,6 +95,30 @@ def check_site(destination, base_url, draft_routes):
                 errors.append(f"{relative}: missing local target: {value}")
             elif url.fragment and target in pages and unquote(url.fragment) not in pages[target].ids:
                 errors.append(f"{relative}: missing fragment: {value}")
+    for path in sorted(destination.rglob("*")):
+        if path.is_file() and path.suffix.lower() in (".html", ".json"):
+            text = path.read_text()
+            for match in TEMPLATE_LEAK.finditer(text):
+                errors.append(f"{path.relative_to(destination)}: template formatting error leaked into output: "
+                              f"{text[match.start():match.start() + 40]!r}")
+    index = destination / "index.json"
+    if index.is_file():
+        try:
+            entries = json.loads(index.read_text()).get("pages", [])
+        except (ValueError, AttributeError) as error:
+            errors.append(f"index.json: not a search index: {error}")
+            entries = []
+        for entry in entries:
+            url = urlsplit(entry.get("u", ""))
+            target = (destination / unquote(url.path).lstrip("/")).resolve()
+            if target.is_dir():
+                target /= "index.html"
+            if not url.path.startswith("/") or not target.is_relative_to(destination) or target not in pages:
+                errors.append(f"index.json: page URL does not resolve to a generated page: {entry.get('u')!r}")
+                continue
+            for heading in entry.get("h", []):
+                if heading.get("a") not in pages[target].ids:
+                    errors.append(f"index.json: {entry['u']} heading anchor is not on the page: {heading.get('a')!r}")
     for path in destination.rglob("*"):
         if path.is_file() and path.suffix.lower() in (".md", ".py", ".toml", ".pkg", ".gz"):
             errors.append(f"Source or tool file included in output: {path.relative_to(destination)}")
@@ -86,4 +132,4 @@ def check_site(destination, base_url, draft_routes):
             errors.append(f"Draft page was published: {route}")
     if errors:
         raise ValueError("Site checks failed:\n" + "\n".join(errors))
-    print(f"PASS: {len(pages)} HTML pages; local links, fragments, assets, canonicals, source exclusion, draft routes, and native diagram shapes.")
+    print(f"PASS: {len(pages)} HTML pages; local links, fragments, assets, canonicals, unique ids, ARIA and label references, template leaks, search index URLs and anchors, source exclusion, draft routes, and native diagram shapes.")

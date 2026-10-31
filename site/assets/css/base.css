@@ -26,6 +26,12 @@
   --ochre: #f0b452;
   --ochre-deep: #b0420c;
   --ochre-soft: #f9e8cb;
+  --teal: #6cbcb4;
+  --teal-deep: #0f6b63;
+  --teal-soft: #dcefec;
+  --slate: #9aa6b8;
+  --slate-deep: #3d4b63;
+  --slate-soft: #e5e8ee;
   --serif: Georgia, "Times New Roman", serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -47,6 +53,8 @@
   --sage: #87b469; --sage-deep: #9ad27a; --sage-soft: #1c2a17;
   --lilac: #ad93ea; --lilac-deep: #c3a6ff; --lilac-soft: #271f39;
   --ochre: #e9ab4a; --ochre-deep: #ffaa66; --ochre-soft: #33240f;
+    --teal: #64b2aa; --teal-deep: #6fd6cb; --teal-soft: #15292a;
+    --slate: #919db0; --slate-deep: #b3c2dc; --slate-soft: #20242c;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -58,6 +66,8 @@
     --sage: #87b469; --sage-deep: #9ad27a; --sage-soft: #1c2a17;
     --lilac: #ad93ea; --lilac-deep: #c3a6ff; --lilac-soft: #271f39;
     --ochre: #e9ab4a; --ochre-deep: #ffaa66; --ochre-soft: #33240f;
+    --teal: #64b2aa; --teal-deep: #6fd6cb; --teal-soft: #15292a;
+    --slate: #919db0; --slate-deep: #b3c2dc; --slate-soft: #20242c;
   }
 }
 /* Subject tone: set on <html> for course pages, and on any element that needs its own. */
@@ -66,6 +76,8 @@
 [data-tone="sage"] { --tone: var(--sage); --tone-deep: var(--sage-deep); --tone-soft: var(--sage-soft); }
 [data-tone="lilac"] { --tone: var(--lilac); --tone-deep: var(--lilac-deep); --tone-soft: var(--lilac-soft); }
 [data-tone="ochre"] { --tone: var(--ochre); --tone-deep: var(--ochre-deep); --tone-soft: var(--ochre-soft); }
+[data-tone="teal"] { --tone: var(--teal); --tone-deep: var(--teal-deep); --tone-soft: var(--teal-soft); }
+[data-tone="slate"] { --tone: var(--slate); --tone-deep: var(--slate-deep); --tone-soft: var(--slate-soft); }
 
 * { box-sizing: border-box; }
 html { scroll-padding-top: 7rem; }
@@ -160,17 +172,18 @@ main:focus { outline: none; }
 .tone-sage { background: var(--sage); }
 .tone-lilac { background: var(--lilac); }
 .tone-ochre { background: var(--ochre); }
+.tone-teal { background: var(--teal); }
+.tone-slate { background: var(--slate); }
+.subject-group + .subject-group { margin-top: 2.5rem; }
+.subject-group h3.subject-group-title { font: .7rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0 .75rem .6rem; border-bottom: 1px solid var(--line); }
 .subject-copy p { margin-top: .35rem; max-width: 46rem; color: var(--muted); font-size: .85rem; }
 .subject-status { color: var(--muted); font: .6rem var(--mono); text-transform: uppercase; letter-spacing: .06em; }
 
 /* Library */
 .library-hero { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; padding: 3rem; margin: 2.5rem 0 3.5rem; background: var(--accent); color: var(--on-tone); box-shadow: 10px 10px 0 var(--shadow); }
-.library-hero h1 { font-size: clamp(3.2rem, 5.7vw, 5.3rem); margin: 1.2rem 0 1.5rem; }
+.library-hero h1 { font-size: clamp(3.2rem, 5.7vw, 5.3rem); margin: 0 0 1.5rem; }
 .library-intro { max-width: 39rem; font-size: .95rem; }
 .library-intro p + p { margin-top: .6rem; }
-.library-stamp { width: 13rem; height: 15rem; display: flex; flex-direction: column; justify-content: space-between; background: #faf9f5; color: #141413; padding: 1.5rem; transform: rotate(3deg); box-shadow: 6px 6px 0 #141413; }
-.library-stamp > span:first-child { font: 500 1.55rem/1.15 var(--mono); letter-spacing: -.06em; }
-.library-stamp > span:last-child { font-size: 2rem; line-height: 1; align-self: end; }
 .library-index { padding-bottom: 4rem; }
 .library-index .section-heading h2 { font: 500 .75rem var(--mono); text-transform: uppercase; letter-spacing: .1em; }
 .start-panel { margin: 0 0 4rem; padding: 3rem; background: var(--tone); color: var(--on-tone); display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; align-items: start; box-shadow: 10px 10px 0 var(--shadow); }
@@ -216,6 +229,7 @@ main:focus { outline: none; }
 .page-contents a:hover { color: var(--ink); }
 .page-contents a[aria-current] { margin-left: -1px; border-left: 3px solid var(--tone-deep); color: var(--ink); font-weight: 600; background: linear-gradient(90deg, var(--tone-soft), transparent); }
 .reading-label { display: flex; justify-content: space-between; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font: .6rem var(--mono); color: var(--muted); }
+.reading-label[hidden] { display: none; }
 .reading-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 50; pointer-events: none; }
 .reading-progress span { display: block; height: 100%; background: var(--tone-deep); transform: scaleX(0); transform-origin: left; }
 .mobile-contents { display: none; margin-bottom: 2rem; border: 1px solid var(--ink); }
@@ -259,7 +273,6 @@ main:focus { outline: none; }
   .subject-status { display: none; }
   .library-hero { padding: 2.5rem 1.5rem; margin: 0 -1.5rem 2.5rem; grid-template-columns: 1fr; gap: 1rem; box-shadow: none; }
   .library-hero h1 { font-size: clamp(2.9rem, 9vw, 4rem); }
-  .library-stamp { display: none; }
   .library-index { padding-bottom: 2rem; }
   .start-panel { grid-template-columns: 1fr; padding: 1.5rem; margin-bottom: 2.5rem; box-shadow: 6px 6px 0 var(--shadow); }
   .start-panel h2 { font-size: 2.5rem; margin-bottom: 1.25rem; grid-row: auto; }
@@ -285,4 +298,27 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
   .button:hover, .brand:hover .brand-mark, .subject-row:hover .subject-arrow { transform: none; }
+}
+/* Print: the article on light paper; navigation, controls, and decoration left out.
+   The selector outranks the dark-theme blocks here and in syntax.css. */
+@media print {
+  html:root, html:root[data-theme], html:root:not([data-theme="light"]) {
+    color-scheme: light;
+    --paper: #fff; --ink: #000; --muted: #444; --line: #bbb; --soft: #f2f2f2; --card: #fff; --shadow: transparent; --on-tone: #000;
+    --tone: #fff; --tone-soft: #fff; --tone-deep: #000;
+    --syn-keyword: #cf222e; --syn-constant: #0550ae; --syn-function: #6639ba; --syn-variable: #953800;
+    --syn-string: #0a3069; --syn-comment: #57606a; --syn-deleted: #82071e; --syn-deleted-bg: #ffebe9; --syn-inserted: #116329; --syn-inserted-bg: #dafbe1;
+    font-size: 11pt;
+  }
+  .site-header, .site-footer, .skip-link, .reading-progress, .course-sidebar, .subject-sidebar, .page-contents, .mobile-contents,
+  .breadcrumbs, .lesson-pager, .pager-hint, .lesson-read, .course-progress, .course-start, .back-link, .code-copy, .heading-anchor,
+  .search-dialog, .read-mark { display: none !important; }
+  .site-main { max-width: none; padding: 0; }
+  .reader-layout { display: block; padding: 0; }
+  * { box-shadow: none !important; }
+  .tone-block { margin: 0 0 1.5rem; padding: 0 0 1rem; border: 0; border-bottom: 1px solid #000; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre, figure, table, img, svg { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  .prose a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .85em; overflow-wrap: anywhere; }
 }

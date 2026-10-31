@@ -19,6 +19,51 @@
         "rebuild": "npm ci --prefix scripts/vendor-mermaid && npm run build --prefix scripts/vendor-mermaid"
       },
       "sbomFile": "scripts/vendor-mermaid/mermaid.cdx.json"
+    },
+    {
+      "name": "excalifont",
+      "version": "1.000 (name table: 'Version 1.000;Glyphs 3.2 (3227)')",
+      "files": [
+        {
+          "file": "site/static/fonts/Excalifont-latin.woff2",
+          "downloadedFrom": "https://infra.riteshsonawane.com/fonts/Excalifont-a88b72a24fb54c9f94e3b5fdaa7481c9.woff2",
+          "bytes": 24956,
+          "sha256": "e4423b318e11432aff2e6e865e300b7ca270f92321a3f56632268fede01c1b48",
+          "unicodeRange": "U+20-7E, Latin-1 and common punctuation"
+        },
+        {
+          "file": "site/static/fonts/Excalifont-latin-ext.woff2",
+          "downloadedFrom": "https://infra.riteshsonawane.com/fonts/Excalifont-be310b9bcd4f1a43f571c46df7809174.woff2",
+          "bytes": 12220,
+          "sha256": "4fb8ad69be9aeac5664d99e5aa3a68a27ea40c98943b80387f7cd55c034fcc93",
+          "unicodeRange": "Latin Extended-A and related"
+        },
+        {
+          "file": "site/static/fonts/Excalifont-greek.woff2",
+          "downloadedFrom": "https://infra.riteshsonawane.com/fonts/Excalifont-41b173a47b57366892116a575a43e2b6.woff2",
+          "bytes": 8712,
+          "sha256": "c96649a5f96e2faa9143ee94e5b590b5afb08092f8d67c67f09cef332d66e4a7",
+          "unicodeRange": "Greek"
+        },
+        {
+          "file": "site/static/fonts/Excalifont-marks.woff2",
+          "downloadedFrom": "https://infra.riteshsonawane.com/fonts/Excalifont-3f2c5db56cc93c5a6873b1361d730c16.woff2",
+          "bytes": 2104,
+          "sha256": "18ea9be1dd6b5a67b057f44eba8e34cb290f88308c272bcf35c79c1a220d0d7b",
+          "unicodeRange": "Spacing and combining marks, ligatures"
+        }
+      ],
+      "license": "OFL-1.1",
+      "licenseFile": "site/static/fonts/LICENSE.txt",
+      "licenseNote": "Short notice only (font name, copyright line from the name table, OFL 1.1, https://openfontlicense.org). The full OFL text could not be fetched: the inspiration site serves no licence file next to the fonts (404) and openfontlicense.org, GitHub and npm are blocked from this environment. Replace with the upstream OFL.txt when reachable.",
+      "copyright": "Copyright (c) 2024 by Excalidraw. All rights reserved. (name ID 0; the font has no embedded licence record, name IDs 13/14)",
+      "officialSource": "Excalidraw project (https://github.com/excalidraw/excalidraw, packages/excalidraw/fonts/Excalifont); subset files and unicode ranges match Excalidraw's published Excalifont subsets",
+      "downloadedOn": "2026-10-30",
+      "verification": {
+        "status": "partial",
+        "performed": "Each file starts with the wOF2 magic, is served as font/woff2, brotli-decompresses to the size its table directory declares, and its name table reads family 'Excalifont', style 'Regular', PostScript 'Excalifont-Regular', copyright Excalidraw. Two independent downloads had identical sha256. Not compared against upstream bytes (GitHub/npm blocked).",
+        "fontFace": "site/assets/css/diagrams.css"
+      }
     }
   ]
 }

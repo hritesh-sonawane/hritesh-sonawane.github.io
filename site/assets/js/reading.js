@@ -3,8 +3,13 @@
   const bar = document.querySelector("[data-reading-progress]");
   if (!article || !bar) return;
   const label = document.querySelector("[data-reading-label]");
+  // The label is hidden in the markup so a page without JavaScript never shows a stale 0%.
+  const labelRow = label && label.closest(".reading-label");
+  if (labelRow) labelRow.hidden = false;
   const links = [...document.querySelectorAll(".page-contents a, .mobile-contents a")];
-  const headings = [...article.querySelectorAll("h2[id], h3[id]")];
+  // Track only headings the contents link to, not generated ones (module cards, "Lessons").
+  const linked = new Set(links.map((link) => decodeURIComponent(link.hash.slice(1))).filter(Boolean));
+  const headings = [...article.querySelectorAll("h2[id], h3[id]")].filter((heading) => linked.has(heading.id));
   let scheduled = false;
   const update = () => {
     scheduled = false;

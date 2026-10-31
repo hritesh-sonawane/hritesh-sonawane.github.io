@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/how-attacks-work/01-prompt-injection']
 date = 2026-04-11
-lastmod = 2026-04-11
+lastmod = 2026-10-30
 verified = 2026-04-11
 +++
 
@@ -405,8 +405,7 @@ flowchart LR
   P -->|"yes"| M
   M -->|"yes"| OK
   M -->|"no"| CH
-  class FP,P,M good
-  class NEW,CH warn
+  class FP,P,M,NEW,CH good
 ```
 
 ## Where it breaks

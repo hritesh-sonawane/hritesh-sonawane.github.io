@@ -19,7 +19,8 @@
     };
     button.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(code.innerText.replace(/\n$/, ""));
+        // textContent, not innerText: the line spans are flex boxes, so innerText adds a blank line after each.
+        await navigator.clipboard.writeText(code.textContent.replace(/\n$/, ""));
         report("Copied", "ok");
       } catch {
         report("Copy failed", "error");

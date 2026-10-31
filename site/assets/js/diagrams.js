@@ -65,16 +65,23 @@
   const PALETTE = JSON.parse(script.dataset.palette);
   const TONES = PALETTE.tones;
 
+  // Pencil-sketch look. One fixed non-zero seed keeps Rough.js strokes identical across loads and
+  // between the inline and expanded renders. Excalifont (vendored, see diagrams.css) sets every label.
+  const SKETCH = PALETTE.sketch || {};
+  const SKETCH_SEED = Number(SKETCH.seed) || 7;
+  const FONT = SKETCH.font || "Excalifont";
+
   function mermaidConfig() {
-    const sans = token("--sans", '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif');
+    const sans = `"${FONT}", ${token("--sans", '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif')}`;
     const { paper, ink, muted, line, soft, card, signal } = PALETTE;
-    const names = ["accent", "rose", "sage", "lilac", "ochre"];
+    const names = Object.keys(TONES);
     const lead = TONES[document.documentElement.dataset.tone] ? document.documentElement.dataset.tone : "accent";
-    const order = [lead, ...names.filter((name) => name !== lead)].map((name) => TONES[name]);
+    const order = [lead, ...names.filter((name) => name !== lead)].map((name) => TONES[name]).filter(Boolean);
     const [main, second, third] = order;
     const tones = order.map((t) => t.tone);
     const deeps = order.map((t) => t.deep);
     const softs = order.map((t) => t.soft);
+    const hatch = main.hatch || main.soft;
     const vars = {
       darkMode: false,
       fontFamily: sans,
@@ -82,16 +89,17 @@
       background: paper,
       textColor: ink,
       lineColor: muted,
-      primaryColor: main.soft,
+      // Rough.js paints node fills as hatching, so hand-drawn shapes use the stronger `hatch` tint.
+      primaryColor: hatch,
       primaryTextColor: ink,
       primaryBorderColor: main.deep,
-      secondaryColor: main.soft,
+      secondaryColor: hatch,
       secondaryTextColor: ink,
       secondaryBorderColor: main.deep,
       tertiaryColor: card,
       tertiaryTextColor: ink,
       tertiaryBorderColor: line,
-      mainBkg: main.soft,
+      mainBkg: hatch,
       nodeBorder: main.deep,
       nodeTextColor: ink,
       clusterBkg: card,
@@ -100,7 +108,7 @@
       edgeLabelBackground: paper,
       // Entity relationship diagrams use the same course tint as flowcharts.
       attributeBackgroundColorOdd: paper,
-      attributeBackgroundColorEven: main.soft,
+      attributeBackgroundColorEven: hatch,
       // Sequence
       noteBkgColor: main.soft,
       noteBorderColor: main.deep,
@@ -214,7 +222,13 @@
       theme: "base",
       fontFamily: sans,
       htmlLabels: true,
+      look: "handDrawn",
+      handDrawnSeed: SKETCH_SEED,
       flowchart: { htmlLabels: true, curve: "linear", padding: 16 },
+      // These types set fonts per element from their own config, not from fontFamily.
+      sequence: { actorFontFamily: sans, noteFontFamily: sans, messageFontFamily: sans },
+      timeline: { taskFontFamily: sans },
+      journey: { taskFontFamily: sans, titleFontFamily: sans },
       suppressErrorRendering: true,
       themeVariables: vars,
     };
@@ -254,17 +268,43 @@
     return mermaidReady;
   }
 
+  // Labels are measured while rendering, so wait for the handwriting font first. The source is the
+  // sample text, which loads only the unicode-range subsets it needs. A slow or blocked font
+  // falls back to sans-serif after a short wait rather than holding the diagram back.
+  function loadFont(sample) {
+    if (!document.fonts || typeof document.fonts.load !== "function") return Promise.resolve();
+    const load = document.fonts.load(`15px "${FONT}"`, sample || "Aa").catch(() => {});
+    return Promise.race([load, new Promise((resolve) => setTimeout(resolve, 4000))]);
+  }
+
   // Mermaid renders through shared global state, so renders run one at a time.
   let renderCount = 0;
   let renderQueue = Promise.resolve();
   function renderSvg(source) {
     const id = `diagram-svg-${++renderCount}`;
     const job = renderQueue
-      .then(loadMermaid)
-      .then(async (mermaid) => {
+      .then(() => Promise.all([loadMermaid(), loadFont(source)]))
+      .then(async ([mermaid]) => {
         try {
-          const { svg } = await mermaid.render(id, source);
-          return svg;
+          try {
+            const { svg } = await mermaid.render(id, source);
+            return svg;
+          } catch (error) {
+            // Some engines fail in the hand-drawn renderer; retry once in the classic look,
+            // which still gets the handwriting font and the pencil filter.
+            console.warn("Hand-drawn render failed, retrying in classic look:", error);
+            document.getElementById(`d${id}`)?.remove();
+            document.getElementById(`i${id}`)?.remove();
+            mermaid.initialize({ ...mermaidConfig(), look: "classic" });
+            try {
+              const { svg } = await mermaid.render(`${id}-c`, source);
+              return svg;
+            } finally {
+              mermaid.initialize(mermaidConfig());
+              document.getElementById(`d${id}-c`)?.remove();
+              document.getElementById(`i${id}-c`)?.remove();
+            }
+          }
         } finally {
           // Mermaid's temporary measuring nodes, in case an error left them behind.
           document.getElementById(`d${id}`)?.remove();
@@ -282,7 +322,49 @@
     if (!svg) throw new Error("Mermaid returned no SVG");
     svg.setAttribute("role", "img");
     svg.setAttribute("aria-label", title);
+    addPencil(svg);
     return svg;
+  }
+
+  /* ---- Pencil filter for types without a hand-drawn mode ---- */
+
+  // Mermaid draws these types with Rough.js when look is "handDrawn" (aria-roledescription values).
+  const HAND_DRAWN = new Set(["flowchart-v2", "flowchart", "flowchart-elk", "stateDiagram", "er", "mindmap", "classDiagram", "class", "requirement", "kanban"]);
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const SHAPES = "rect, line, path, polygon, polyline, circle, ellipse";
+  const NOT_SHAPES = "text, foreignObject, defs, marker, clipPath, mask, pattern, symbol";
+
+  // A small turbulence displacement on strokes and shapes only; text is never filtered. Each SVG
+  // gets its own filter, id-prefixed by the SVG's unique render id, so inline and expanded copies
+  // never collide. User-space units keep zero-height lines (sequence messages, axes) visible.
+  function addPencil(svg) {
+    const kind = svg.getAttribute("aria-roledescription") || "";
+    if (HAND_DRAWN.has(kind) || !svg.id) return;
+    const { x, y, w, h } = viewBoxOf(svg);
+    const filter = document.createElementNS(SVG_NS, "filter");
+    const id = `${svg.id}-pencil`;
+    const attrs = { id, filterUnits: "userSpaceOnUse", primitiveUnits: "userSpaceOnUse", "color-interpolation-filters": "sRGB", x: x - w / 4, y: y - h / 4, width: w * 1.5, height: h * 1.5 };
+    Object.entries(attrs).forEach(([name, value]) => filter.setAttribute(name, String(value)));
+    filter.innerHTML = `<feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" seed="${SKETCH_SEED}" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>`;
+    let defs = svg.querySelector(":scope > defs");
+    if (!defs) {
+      defs = document.createElementNS(SVG_NS, "defs");
+      svg.prepend(defs);
+    }
+    defs.append(filter);
+    svg.querySelectorAll(SHAPES).forEach((shape) => {
+      if (!shape.closest(NOT_SHAPES)) shape.setAttribute("filter", `url(#${id})`);
+    });
+    svg.classList.add("diagram-pencil");
+  }
+
+  function viewBoxOf(svg) {
+    const parts = (svg.getAttribute("viewBox") || "").trim().split(/[\s,]+/).map(Number);
+    if (parts.length === 4 && parts.every(Number.isFinite) && parts[2] > 0 && parts[3] > 0) {
+      return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+    }
+    const { w, h } = naturalSize(svg);
+    return { x: 0, y: 0, w, h };
   }
 
   function naturalSize(svg) {
@@ -301,7 +383,7 @@
     if (!figure.querySelector(".diagram-error")) {
       const note = document.createElement("p");
       note.className = "diagram-error";
-      note.textContent = "This diagram could not be drawn, so its source is shown instead.";
+      note.textContent = `This diagram could not be drawn, so its source is shown instead. (${String((error && error.message) || error).slice(0, 160)})`;
       figure.append(note);
     }
     console.warn("Diagram could not be rendered:", error);
@@ -576,20 +658,26 @@
     return v;
   }
 
+  let opening = false;
   async function openViewer(figure, trigger) {
-    if (viewer && viewer.dialog.open) return;
+    // A double-click fires two clicks before the first render resolves; only the first opens.
+    if (opening || (viewer && viewer.dialog.open)) return;
     const source = sources.get(figure);
     if (source === undefined) return;
     if (!expandedCache.has(figure)) expandedCache.set(figure, renderSvg(source));
 
     let svg;
+    opening = true;
     try {
       svg = parseSvg(await expandedCache.get(figure), figure.dataset.diagramTitle);
     } catch (error) {
       expandedCache.delete(figure);
       console.warn("Expanded diagram could not be rendered:", error);
       return;
+    } finally {
+      opening = false;
     }
+    if (viewer && viewer.dialog.open) return;
 
     viewer = viewer || buildViewer();
     const v = viewer;

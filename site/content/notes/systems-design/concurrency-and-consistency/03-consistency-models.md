@@ -6,7 +6,7 @@ weight = 3
 difficulty = 4
 prerequisites = ['/notes/systems-design/concurrency-and-consistency/01-races-and-check-then-act']
 date = 2026-10-04
-lastmod = 2026-10-04
+lastmod = 2026-10-30
 verified = 2026-10-04
 +++
 
@@ -46,7 +46,6 @@ flowchart TB
   class L good
   class S,C compute
   class RYW memory
-  class E warn
   class N1,N2 neutral
 ```
 

@@ -6,7 +6,7 @@ weight = 5
 difficulty = 3
 prerequisites = ['/notes/application-security/authentication/01-storing-credentials', '/notes/application-security/authentication/02-sessions-and-cookies']
 date = 2026-05-29
-lastmod = 2026-05-29
+lastmod = 2026-10-30
 verified = 2026-05-29
 +++
 
@@ -36,6 +36,7 @@ recovery at least as strong as the login it replaces.**
 
 ```mermaid {title="A phishing proxy against a one-time code and against a passkey"}
 sequenceDiagram
+  autonumber
   participant U as User
   participant P as Phishing proxy<br/>(examp1e.com)
   participant S as Real site<br/>(example.com)

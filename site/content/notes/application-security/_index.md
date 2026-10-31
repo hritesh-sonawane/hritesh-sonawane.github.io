@@ -3,6 +3,7 @@ title = 'Application security'
 description = 'Identity, permissions, untrusted input, and the mistakes that turn an API into an attack surface.'
 weight = 2
 tone = 'rose'
+group = 'security'
 status = 'Course'
 course = true
 +++

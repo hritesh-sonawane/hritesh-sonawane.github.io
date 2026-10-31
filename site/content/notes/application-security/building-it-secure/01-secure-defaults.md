@@ -6,7 +6,7 @@ weight = 1
 difficulty = 2
 prerequisites = ['/notes/application-security/foundations/01-the-request-is-a-trust-boundary', '/notes/application-security/untrusted-input/02-xss-and-output-encoding']
 date = 2026-06-18
-lastmod = 2026-06-18
+lastmod = 2026-10-30
 verified = 2026-06-18
 +++
 
@@ -203,8 +203,7 @@ flowchart LR
   HAS -- "no" --> NO
   class R compute
   class PUB,ROLE,HAS neutral
-  class OK good
-  class NO warn
+  class OK,NO good
 ```
 
 Deny-by-default extends beyond routes:

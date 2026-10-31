@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/securing-each-stage/02-data-and-training', '/notes/ai-security-engineering/how-attacks-work/03-poisoning-and-supply-chain']
 date = 2026-04-19
-lastmod = 2026-04-19
+lastmod = 2026-10-30
 verified = 2026-04-19
 +++
 
@@ -275,8 +275,7 @@ flowchart LR
   C2 -->|"no"| NO
   C3 -->|"no"| NO
   POD -.-x|"no egress"| NET(["Internet"])
-  class OK good
-  class NO warn
+  class OK,NO good
 ```
 
 ### The same pipeline for everything else
@@ -300,7 +299,7 @@ these weights.
 
 Each SLSA build level adds assurance on top of the one below.
 
-```mermaid {title="SLSA build levels stack"}
+```mermaid {title="Each SLSA build level adds a guarantee to the one below"}
 block-beta
   columns 1
   L3["Build L3: hardened, isolated builds, provenance the build cannot forge"]

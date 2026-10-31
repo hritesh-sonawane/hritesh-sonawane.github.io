@@ -6,7 +6,22 @@
   const root = document.documentElement;
   const system = window.matchMedia("(prefers-color-scheme: dark)");
   const current = () => root.getAttribute("data-theme") || (system.matches ? "dark" : "light");
-  const sync = () => button.setAttribute("aria-pressed", String(current() === "dark"));
+  // The browser UI colour: two <meta name="theme-color"> tags keyed to prefers-color-scheme.
+  // With a chosen theme, both carry that theme's colour; otherwise they keep their own.
+  const metas = Array.from(document.querySelectorAll('meta[name="theme-color"]'));
+  const colors = {};
+  metas.forEach((meta) => {
+    meta.dataset.color = meta.content;
+    const scheme = /dark/.test(meta.media) ? "dark" : "light";
+    colors[scheme] = meta.content;
+  });
+  const sync = () => {
+    button.setAttribute("aria-pressed", String(current() === "dark"));
+    const chosen = root.getAttribute("data-theme");
+    metas.forEach((meta) => {
+      meta.content = (chosen && colors[chosen]) || meta.dataset.color;
+    });
+  };
   button.addEventListener("click", () => {
     const next = current() === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);

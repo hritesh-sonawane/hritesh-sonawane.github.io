@@ -6,7 +6,7 @@ weight = 3
 difficulty = 1
 prerequisites = ['/notes/ai-security-engineering/threat-landscape/02-threat-modeling-ai-systems']
 date = 2026-04-05
-lastmod = 2026-04-05
+lastmod = 2026-10-30
 +++
 
 ## The idea in one minute
@@ -213,7 +213,7 @@ sequenceDiagram
     Agent->>Doc: Retrieve it for a user's task
     Note right of Agent: Log, which chunk entered which context
   end
-  rect rgb(236, 228, 251)
+  rect rgb(249, 226, 233)
     Note over Agent,Mem: Persistence, memory poisoning
     Agent->>Mem: Save the planted rule
     Note right of Mem: Log, memory write with its source

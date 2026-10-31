@@ -6,7 +6,7 @@ weight = 2
 difficulty = 4
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises', '/notes/systems-design/failure-modes/05-blast-radius-and-cells', '/notes/systems-design/concurrency-and-consistency/02-locks-leases-and-fencing', '/notes/systems-design/worked-designs/01-a-rate-limiter']
 date = 2026-10-20
-lastmod = 2026-10-20
+lastmod = 2026-10-30
 verified = 2026-10-20
 +++
 
@@ -31,6 +31,7 @@ cause and the easiest to detect.
 
 ```mermaid {title="Identity in, credential out, and the paths that do not touch the broker"}
 sequenceDiagram
+  autonumber
   participant P as Platform
   participant W as Workload
   participant B as Broker

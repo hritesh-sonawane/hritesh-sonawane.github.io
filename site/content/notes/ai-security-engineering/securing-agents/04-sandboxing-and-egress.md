@@ -6,7 +6,7 @@ weight = 4
 difficulty = 3
 prerequisites = ['/notes/ai-security-engineering/securing-agents/01-agent-threats', '/notes/ai-security-engineering/securing-agents/02-identity-and-authorization']
 date = 2026-05-05
-lastmod = 2026-05-05
+lastmod = 2026-10-30
 verified = 2026-05-05
 +++
 
@@ -439,8 +439,7 @@ flowchart TB
   C4 -->|"yes"| C5{"Every resolved<br/>address public?"}
   C5 -->|"yes"| OK["<b>Allow</b><br/><small>connect to the checked IP</small>"]
   C1 & C2 & C3 & C4 & C5 -->|"no"| DN["<b>Deny and log</b>"]
-  class OK good
-  class DN warn
+  class OK,DN good
 ```
 
 The program's twelve test requests, split by the check that stopped them.

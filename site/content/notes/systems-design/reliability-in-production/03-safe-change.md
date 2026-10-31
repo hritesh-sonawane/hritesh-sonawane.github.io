@@ -6,7 +6,7 @@ weight = 3
 difficulty = 3
 prerequisites = ['/notes/systems-design/reliability-in-production/01-slos-and-error-budgets', '/notes/systems-design/reliability-in-production/02-observability-signals', '/notes/systems-design/failure-modes/05-blast-radius-and-cells']
 date = 2026-10-14
-lastmod = 2026-10-14
+lastmod = 2026-10-30
 verified = 2026-10-14
 +++
 
@@ -44,8 +44,7 @@ flowchart LR
   G1 & G2 & G3 -->|"fail"| RB["<b>Roll back</b><br/><small>automatic</small>"]
   class B neutral
   class C1,C2,C3,ALL compute
-  class G1,G2,G3 good
-  class RB warn
+  class G1,G2,G3,RB good
 ```
 
 Each stage widens the blast radius only after the previous one has produced
@@ -164,8 +163,7 @@ flowchart LR
   J -.->|"not yet"| M
   class P neutral
   class BL,CN compute
-  class W good
-  class RB warn
+  class W,RB good
 ```
 
 For error ratios, a **two-proportion z-test** asks how many standard errors
@@ -353,8 +351,7 @@ flowchart LR
   W -->|"after interval 12"| IN["<b>inconclusive</b><br/><small>never promote on silence</small>"]
   class I neutral
   class W,IN queue
-  class OK,PR good
-  class FAIL warn
+  class OK,PR,FAIL good
 ```
 
 ```python {title="canary.py"}

@@ -6,7 +6,7 @@ weight = 1
 difficulty = 4
 prerequisites = ['/notes/cryptography/symmetric-cryptography/01-block-ciphers-and-modes', '/notes/cryptography/symmetric-cryptography/02-authenticated-encryption']
 date = 2026-09-04
-lastmod = 2026-09-04
+lastmod = 2026-10-30
 verified = 2026-09-04
 +++
 
@@ -172,6 +172,7 @@ different failures to report, verify-first has only one.
 
 ```mermaid {title="Verify-first leaves only one answer, so there is no bit to leak"}
 sequenceDiagram
+  autonumber
   participant A as Sender of a modified ciphertext
   participant R as Receiver
   A->>R: Modified ciphertext

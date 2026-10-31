@@ -6,7 +6,7 @@ weight = 4
 difficulty = 2
 prerequisites = ['/notes/cryptography/applied-cryptography/03-post-quantum-migration']
 date = 2026-09-10
-lastmod = 2026-09-10
+lastmod = 2026-10-30
 verified = 2026-09-10
 +++
 
@@ -158,6 +158,7 @@ one of them.
 
 ```mermaid {title="A downgrade needs a weak option to land on"}
 sequenceDiagram
+  autonumber
   participant C as Client
   participant M as Active attacker
   participant S as Server

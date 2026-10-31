@@ -6,7 +6,7 @@ weight = 1
 difficulty = 3
 prerequisites = ['/notes/systems-design/thinking-in-invariants/01-what-a-design-promises', '/notes/systems-design/thinking-in-invariants/02-state-machines-and-transitions']
 date = 2026-09-30
-lastmod = 2026-09-30
+lastmod = 2026-10-30
 verified = 2026-09-30
 +++
 
@@ -35,6 +35,7 @@ enforced at the moment of the write, not before it.**
 
 ```mermaid {title="Two withdrawals of 80 against a balance of 100"}
 sequenceDiagram
+  autonumber
   participant A as Request A
   participant DB as Database
   participant B as Request B
